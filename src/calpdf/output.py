@@ -82,6 +82,43 @@ def error(text: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Size formatting. Shared by every command that reports a file size.
+# ---------------------------------------------------------------------------
+
+
+def format_size(num_bytes: int) -> str:
+    """Format *num_bytes* as bytes, KB, or MB.
+
+    The units are 1024-based, and match the ones that ``info`` prints, so two
+    commands never disagree about the size of the same file.
+    """
+    if num_bytes < 1024:
+        return f"{num_bytes} bytes"
+    if num_bytes < 1024 * 1024:
+        return f"{num_bytes / 1024:.1f} KB"
+    return f"{num_bytes / (1024 * 1024):.1f} MB"
+
+
+def format_size_change(before: int, after: int) -> str:
+    """Describe the change from *before* to *after* bytes, as a sentence."""
+    if before == after:
+        return f"{format_size(before)}, unchanged."
+
+    direction = "smaller" if after < before else "larger"
+    if before == 0:
+        return f"{format_size(before)} to {format_size(after)}, {direction}."
+
+    percent = abs(after - before) * 100 / before
+    if percent < 0.1:
+        amount = "less than 0.1%"
+    elif percent < 10:
+        amount = f"{percent:.1f}%"
+    else:
+        amount = f"{percent:.0f}%"
+    return f"{format_size(before)} to {format_size(after)}, {amount} {direction}."
+
+
+# ---------------------------------------------------------------------------
 # Structured output. Use it for data that may be piped.
 # ---------------------------------------------------------------------------
 

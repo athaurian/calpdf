@@ -86,14 +86,7 @@ def _render_text(info: dict[str, Any]) -> str:
     lines.append(f"File: {info['file']}")
     lines.append(f"Pages: {info['pages']}")
     lines.append(f"Version: {info['version']}")
-    size = info["sizeBytes"]
-    if size < 1024:
-        size_label = f"{size} bytes"
-    elif size < 1024 * 1024:
-        size_label = f"{size / 1024:.1f} KB"
-    else:
-        size_label = f"{size / (1024 * 1024):.1f} MB"
-    lines.append(f"Size: {size_label}")
+    lines.append(f"Size: {output.format_size(info['sizeBytes'])}")
     outline = info["outline"]
     lines.append(
         f"Bookmarks: {outline['total']} total ({outline['topLevel']} top-level)"

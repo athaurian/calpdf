@@ -2,13 +2,9 @@
 
 The `optimize` command makes a PDF smaller, hopefully. It uses `qpdf` to linearize the file so a viewer can load it faster, to compress objects and images, and to remove metadata such as the title and author.
 
-The result depends on what is inside the file. Scanned books and comics often shrink a lot, and a file that the publisher already compressed may not shrink at all. Run [`info`](info.md) before and after to compare:
+The result depends on what is inside the file. Scanned books and comics often shrink a lot, and a file that the publisher already compressed may not shrink at all. An already tight file can grow slightly, because `qpdf` adds linearization data.
 
-```bash
-calpdf info book.pdf
-calpdf optimize book.pdf
-calpdf info book.pdf
-```
+When the command finishes, it reports how the size changed, as in `Size: 2.5 MB to 425.7 KB, 84% smaller.` If the size is the same, the report says `unchanged`.
 
 The following examples show common ways to use it:
 

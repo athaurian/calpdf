@@ -31,7 +31,7 @@ def find_binary(name: str, required: bool = True) -> Optional[str]:
 
 def qpdf_optimize(
     qpdf_bin: str, source: Path, output_path: Path, keep_metadata: bool = False
-) -> int:
+) -> subprocess.CompletedProcess[str]:
     cmd = [
         qpdf_bin,
         "--linearize",
@@ -50,7 +50,7 @@ def qpdf_optimize(
     cmd += [str(source), str(output_path)]
 
     result = subprocess.run(cmd, capture_output=True, text=True)
-    return result.returncode
+    return result
 
 
 def strip_color_profiles(input_path: Path, output_path: Path) -> None:
@@ -153,6 +153,7 @@ def main(
         in_place = False
     try:
         validate_input_file(input_pdf, label="Input PDF")
+        input_size = input_pdf.stat().st_size
         validate_output_dir(output_file)
         qpdf_bin = find_binary("qpdf", required=True)
         if in_place:
@@ -171,29 +172,47 @@ def main(
                 output.info("Color profiles removed.")
                 qpdf_source = stripped
             output.info(f"Optimizing '{output_file}' with qpdf...")
-            exit_code = qpdf_optimize(
-                qpdf_bin, qpdf_source, output_file, keep_metadata=keep_metadata
+            temp_output = workdir / output_file.name
+            result = qpdf_optimize(
+                qpdf_bin, qpdf_source, temp_output, keep_metadata=keep_metadata
             )
+            exit_code = result.returncode
+            qpdf_stderr = result.stderr.strip()
             if exit_code != 0:
                 if exit_code == 3:
-                    output.warning(
-                        "qpdf completed with warnings. Inspect the output carefully."
-                    )
+                    if qpdf_stderr:
+                        output.warning(f"qpdf completed with warnings:\n{qpdf_stderr}")
+                    else:
+                        output.warning(
+                            "qpdf completed with warnings."
+                            " Inspect the output carefully."
+                        )
                 elif force:
-                    output.warning(
-                        f"qpdf failed (exit {exit_code}), "
-                        "--force set, continuing anyway."
-                    )
+                    if qpdf_stderr:
+                        output.warning(
+                            f"qpdf failed (exit {exit_code}), "
+                            f"--force set, continuing anyway:\n{qpdf_stderr}"
+                        )
+                    else:
+                        output.warning(
+                            f"qpdf failed (exit {exit_code}), "
+                            "--force set, continuing anyway."
+                        )
+                elif qpdf_stderr:
+                    raise AppError(f"qpdf failed (exit {exit_code}).\n{qpdf_stderr}")
                 else:
                     raise AppError(f"qpdf failed (exit {exit_code}).")
-            if not output_file.is_file() or output_file.stat().st_size == 0:
+            if not temp_output.is_file() or temp_output.stat().st_size == 0:
                 raise AppError(
                     f"qpdf produced no output file at '{output_file}' "
                     f"(qpdf exit code: {exit_code})."
                 )
+            temp_output.replace(output_file)
 
         backup_note = f" (backup: '{backup_file}')" if backup_file else ""
         output.success(f"Success: Optimized '{output_file}'{backup_note}.")
+        after_size = output_file.stat().st_size
+        output.detail(f"Size: {output.format_size_change(input_size, after_size)}")
 
     except typer.Exit:
         raise
