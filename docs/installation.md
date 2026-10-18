@@ -10,6 +10,16 @@ uv pip install .
 
 To set up a development environment instead, see [Development](development.md).
 
+## First run
+
+The [`info`](commands/info.md) command reads a PDF and prints what it finds. It is a safe first step on a file you care about:
+
+```bash
+calpdf info book.pdf
+```
+
+When you are ready to change something, [`set-cover`](commands/set-cover.md) and [`optimize`](commands/optimize.md) are good first jobs. For a full pass over one book, see the example session on the [home page](index.md).
+
 ## Arch Linux
 
 If you run Arch Linux, you can install the signed `calpdf-git` package from my [Forge repository](https://github.com/athaurian/forge). For setup instructions, see the [Forge README](https://github.com/athaurian/forge#set-up-the-repository).

@@ -9,6 +9,8 @@ calpdf apply-toc book.pdf toc.json -o output.pdf
 
 The first example updates the PDF in place and keeps a backup. The second example writes the result to a new file.
 
+The file is plain JSON. You can write it by hand, edit it in any text editor, or produce it with another tool.
+
 The command validates the file before applying it, and it reports an error for each invalid entry. It leaves the PDF's page labels, such as roman numerals for the front matter, as they are. For the JSON structure and field rules, see [The ToC JSON format](../reference/toc-json-format.md).
 
 To export the bookmarks of a PDF as JSON first, use [`export-toc`](export-toc.md).

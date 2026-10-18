@@ -10,8 +10,15 @@ calpdf export-toc book.pdf -o toc.json
 calpdf export-toc book.pdf --format tree
 ```
 
-With `--format tree`, calpdf prints the tree to the terminal, so the `--output` option has no effect, and calpdf prints a warning if you pass it anyway.
+With `--format tree`, calpdf prints the tree to the terminal, and the `--output` option has no effect. calpdf prints a warning if you pass it anyway.
 
 The JSON output matches the format described in [The ToC JSON format](../reference/toc-json-format.md). A bookmark without a page target gets a `null` `pageNumber`.
 
-To write the exported bookmarks back into a PDF, use [`apply-toc`](apply-toc.md).
+## A book with no bookmarks
+
+A scanned book often arrives with no bookmarks at all, and the export comes back as an empty list. Write the entries into the file with any text editor, then apply it with [`apply-toc`](apply-toc.md):
+
+```bash
+calpdf export-toc book.pdf -o toc.json
+calpdf apply-toc book.pdf toc.json
+```

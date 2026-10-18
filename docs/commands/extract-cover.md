@@ -14,3 +14,13 @@ calpdf extract-cover book.pdf --page 2 --raw -o cover.jpg
 ```
 
 Without `--output`, calpdf saves the image in the current directory as `BOOK_STEM_cover.jpg`, where `BOOK_STEM` is the PDF file name without its extension. The command picks the largest image on the selected page, so it skips small icons and returns the image that most likely is the cover. To write the original bytes without re-encoding, use `--raw`.
+
+## Reusing the cover in Calibre
+
+Extract the cover when you need the image on its own, for example to set it as the book's cover in Calibre:
+
+```bash
+calpdf extract-cover book.pdf
+```
+
+In Calibre, open the book, choose **Edit metadata**, and drag `book_cover.jpg` onto the cover on the right.
