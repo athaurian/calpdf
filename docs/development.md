@@ -6,7 +6,7 @@ To set up a development environment, run the following command:
 uv sync --dev
 ```
 
-The command installs the project and its development tools (`pytest`, `ruff`, `mypy`, and `mkdocs`).
+The command installs the project and its development tools (`pytest`, `ruff`, `mypy`, and `zensical`).
 
 To run the CLI from the working tree without installing it, use the following commands:
 
@@ -28,7 +28,9 @@ make format  # format Python and Markdown
 
 ## Documentation
 
-This site is built with [MkDocs](https://www.mkdocs.org/) and the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme. The content lives in `docs/`, and the site configuration lives in `mkdocs.yml`.
+This site is built with [Zensical](https://zensical.org/). The content lives in `docs/`, and the site configuration lives in `zensical.toml`.
+
+The look comes from the shared [docs-theme](https://github.com/athaurian/docs-theme) repository. `docs/stylesheets/extra.css` and `overrides/home.html` are copies of its files, and its `make sync` copies them here.
 
 To preview the site locally while you edit:
 

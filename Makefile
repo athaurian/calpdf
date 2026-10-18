@@ -5,7 +5,7 @@ CHECK_PY := uv run
 RUFF     := $(CHECK_PY) ruff
 MYPY     := $(CHECK_PY) python -m mypy
 PYTEST   := $(CHECK_PY) python -m pytest
-MKDOCS   := $(CHECK_PY) mkdocs
+ZENSICAL := $(CHECK_PY) zensical
 PRETTIER := npx prettier
 
 MD_FILES := README.md "docs/**/*.md"
@@ -23,8 +23,8 @@ help:
 	@echo "  format     - Format Python and Markdown"
 	@echo "  format-py  - Format Python (ruff format)"
 	@echo "  format-md  - Format Markdown (prettier --write)"
-	@echo "  docs       - Build the documentation site (mkdocs build --strict)"
-	@echo "  docs-serve - Serve the documentation site locally (mkdocs serve)"
+	@echo "  docs       - Build the documentation site (zensical build --strict)"
+	@echo "  docs-serve - Serve the documentation site locally (zensical serve)"
 	@echo "  test       - Run test suite (pytest)"
 
 # --- Quality gate ---
@@ -51,10 +51,10 @@ format-md:
 	$(PRETTIER) --write $(MD_FILES)
 
 docs:
-	$(MKDOCS) build --strict
+	$(ZENSICAL) build --strict
 
 docs-serve:
-	$(MKDOCS) serve
+	$(ZENSICAL) serve
 
 test:
 	$(PYTEST)

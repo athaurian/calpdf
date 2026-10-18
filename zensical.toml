@@ -1,0 +1,98 @@
+[project]
+site_name = "calpdf"
+site_description = "A simple PDF toolkit to run alongside Calibre"
+site_url = "https://athaurian.github.io/calpdf/"
+repo_url = "https://github.com/athaurian/calpdf"
+repo_name = "athaurian/calpdf"
+edit_uri = "edit/main/docs/"
+copyright = """
+<span>Made with ❤️ and <a href="https://zensical.org">Zensical</a></span> <span>Content licensed under <a href="https://github.com/athaurian/calpdf/blob/main/LICENSE">MIT</a></span>
+"""
+
+# Lora is loaded as a webfont for the serif roles that extra.css assigns.
+extra_css = [
+  "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=fallback",
+  "stylesheets/extra.css",
+]
+
+nav = [
+  { "Home" = "index.md" },
+  { "Installation" = "installation.md" },
+  { "Global options" = "global-options.md" },
+  { "Commands" = [
+      { "replace-cover" = "commands/replace-cover.md" },
+      { "dl-cover" = "commands/dl-cover.md" },
+      { "set-cover" = "commands/set-cover.md" },
+      { "extract-cover" = "commands/extract-cover.md" },
+      { "optimize" = "commands/optimize.md" },
+      { "info" = "commands/info.md" },
+      { "export-toc" = "commands/export-toc.md" },
+      { "apply-toc" = "commands/apply-toc.md" },
+    ] },
+  { "Reference" = [
+      { "The ToC JSON format" = "reference/toc-json-format.md" },
+      { "Backup behavior" = "reference/backup-behavior.md" },
+    ] },
+  { "Development" = "development.md" },
+]
+
+[project.theme]
+variant = "modern"
+font.text = "Google Sans"
+font.code = "Google Sans Code"
+# The monogram tile comes from the docs theme, at --fill 0.38. It is the header
+# logo, the favicon, and the README image.
+logo = "favicon.svg"
+favicon = "favicon.svg"
+features = [
+  "navigation.sections",
+  "navigation.top",
+  "navigation.footer",
+  "content.code.copy",
+  "content.action.edit",
+  "search.highlight",
+]
+
+# overrides/home.html sets the home page's document title to the site name.
+custom_dir = "overrides"
+
+# The visible colors come from stylesheets/extra.css, which overrides the --md-*
+# variables. The scheme names here only select which block applies.
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "indigo"
+accent = "indigo"
+toggle.icon = "material/brightness-7"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "indigo"
+accent = "indigo"
+toggle.icon = "material/brightness-4"
+toggle.name = "Switch to light mode"
+
+[project.markdown_extensions]
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+tables = {}
+toc.permalink = true
+pymdownx.details = {}
+pymdownx.highlight.anchor_linenums = true
+pymdownx.inlinehilite = {}
+pymdownx.snippets = {}
+pymdownx.superfences = {}
+pymdownx.tabbed.alternate_style = true
+
+# generator = false removes the stock "Made with Zensical" line that would
+# otherwise sit next to the copyright. homepage is the logo link target. The nav
+# entry's own url is empty when the home page sits at the docs root, and the
+# value goes through the url filter, so it must be a URL instead of a source
+# path.
+[project.extra]
+generator = false
+homepage = "."
