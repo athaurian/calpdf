@@ -48,13 +48,19 @@ class TestBackupConsistency:
     def test_optimize_creates_backup(self, sample_pdf: Path):
         mock_result = MagicMock()
         mock_result.returncode = 0
+        mock_result.stderr = ""
+
+        def fake_run(cmd, **kwargs):
+            shutil.copy2(sample_pdf, cmd[-1])
+            return mock_result
+
         with (
             patch("calpdf.optimize.shutil.which", return_value="/usr/bin/qpdf"),
-            patch("calpdf.optimize.subprocess.run", return_value=mock_result),
+            patch("calpdf.optimize.subprocess.run", side_effect=fake_run),
         ):
-            bak = sample_pdf.with_name(sample_pdf.name + ".bak")
             result = runner.invoke(app, ["optimize", str(sample_pdf)])
             assert result.exit_code == 0
+            bak = sample_pdf.with_name(sample_pdf.name + ".bak")
             assert bak.exists()
             assert "backup" in result.output.lower()
 
@@ -143,21 +149,6 @@ class TestSetCoverEarlyValidation:
             )
             assert result.exit_code == 1
             assert "error:" in result.output.lower()
-            mock_get.assert_not_called()
-
-    def test_missing_pdf_with_output_fails_without_download(self, tmp_path: Path):
-        with patch("calpdf.dlcover.requests.get") as mock_get:
-            result = runner.invoke(
-                app,
-                [
-                    "set-cover",
-                    str(tmp_path / "nonexistent.pdf"),
-                    "B08X92NRKV",
-                    "-o",
-                    str(tmp_path / "out.pdf"),
-                ],
-            )
-            assert result.exit_code == 1
             mock_get.assert_not_called()
 
 

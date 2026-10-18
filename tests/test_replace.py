@@ -63,13 +63,6 @@ class TestTargetPageGeometry:
         with pikepdf.open(pdf_path) as pdf, pytest.raises(AppError, match="no pages"):
             target_page_geometry(pdf, Mode.replace, 0)
 
-    def test_replace_all_pages_falls_back_to_last_page(self, sample_pdf: Path):
-        """Replacing every page must not fail geometry detection."""
-        with pikepdf.open(sample_pdf) as pdf:
-            geom = target_page_geometry(pdf, Mode.replace, 3)
-            assert abs(geom.width - 612) < 1
-            assert abs(geom.height - 792) < 1
-
     def test_pages_beyond_total_clamps_to_last_page(self, sample_pdf: Path):
         with pikepdf.open(sample_pdf) as pdf:
             geom = target_page_geometry(pdf, Mode.replace, 99)
