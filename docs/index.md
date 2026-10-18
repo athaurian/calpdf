@@ -39,6 +39,7 @@ Each command has its own page with its options and examples:
 - The [`info`](commands/info.md) command shows information about a PDF, such as its page count and file size.
 - The [`export-toc`](commands/export-toc.md) command exports the bookmarks, or _table of contents (ToC)_, of a PDF.
 - The [`apply-toc`](commands/apply-toc.md) command replaces the bookmarks of a PDF from a JSON file.
+- The [`restore`](commands/restore.md) command copies the `.bak` backup back over a PDF and deletes the backup.
 
 ## Options and reference
 

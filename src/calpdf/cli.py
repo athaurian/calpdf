@@ -3,7 +3,7 @@ from typing import Optional
 
 import typer
 
-from calpdf import dlcover, extract, info, optimize, replace, toc
+from calpdf import dlcover, extract, info, optimize, replace, restore, toc
 from calpdf.output import configure
 
 # Help text shared by every command that reads or writes a ToC JSON file.
@@ -25,7 +25,7 @@ Commands that modify a PDF in place keep the original file. This applies to
 '--output' option. calpdf copies the original to a file with the same name
 and a '.bak' suffix, such as 'book.pdf.bak'. If a '.bak' file already exists,
 calpdf uses it as the source and does not overwrite it. To restore the
-original, copy the '.bak' file back over the PDF."""
+original, run 'calpdf restore' on the PDF."""
 
 app = typer.Typer(
     name="calpdf",
@@ -85,3 +85,4 @@ app.command("extract-cover")(extract.main)
 app.command("info")(info.main)
 app.command("export-toc", epilog=TOC_JSON_FORMAT)(toc.export_toc)
 app.command("apply-toc", epilog=TOC_JSON_FORMAT)(toc.apply_toc)
+app.command("restore")(restore.main)

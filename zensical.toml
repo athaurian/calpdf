@@ -28,6 +28,7 @@ nav = [
       { "info" = "commands/info.md" },
       { "export-toc" = "commands/export-toc.md" },
       { "apply-toc" = "commands/apply-toc.md" },
+      { "restore" = "commands/restore.md" },
     ] },
   { "Reference" = [
       { "The ToC JSON format" = "reference/toc-json-format.md" },
