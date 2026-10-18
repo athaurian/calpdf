@@ -238,6 +238,14 @@ def build_outline_items(
     return items
 
 
+def count_toc_entries(entries: list[dict]) -> int:
+    """Count *entries* and all nested children."""
+    total = 0
+    for entry in entries:
+        total += 1 + count_toc_entries(entry.get("children", []))
+    return total
+
+
 # ---------------------------------------------------------------------------
 # CLI commands
 # ---------------------------------------------------------------------------
@@ -368,6 +376,7 @@ def apply_toc(
 
         backup_note = f" (backup: '{backup_file}')" if backup_file else ""
         output.success(f"Success: Applied ToC to '{out_file}'{backup_note}.")
+        output.detail(f"{count_toc_entries(data)} bookmarks ({len(data)} top-level).")
 
     except typer.Exit:
         raise

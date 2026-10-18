@@ -139,6 +139,8 @@ def main(
     try:
         written = extract_cover(input_pdf, output_file, page, raw)
         output.success(f"Success: Extracted cover to '{written}'.")
+        with Image.open(written) as img:
+            output.detail(f"{img.format or 'unknown'}, {img.size[0]}x{img.size[1]}.")
     except typer.Exit:
         raise
     except AppError as exc:

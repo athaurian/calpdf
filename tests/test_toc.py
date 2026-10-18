@@ -199,6 +199,22 @@ class TestApplyTocCLI:
             assert len(toc) == 2
             assert toc[0]["title"] == "Intro"
 
+    def test_apply_reports_entry_count(self, sample_pdf: Path, tmp_path: Path):
+        toc_data = [
+            {"title": "Intro", "pageNumber": 1, "children": []},
+            {
+                "title": "Body",
+                "pageNumber": 2,
+                "children": [{"title": "Detail", "pageNumber": 3, "children": []}],
+            },
+        ]
+        toc_file = tmp_path / "toc.json"
+        toc_file.write_text(json.dumps(toc_data))
+
+        result = runner.invoke(app, ["apply-toc", str(sample_pdf), str(toc_file)])
+        assert result.exit_code == 0
+        assert "3 bookmarks (2 top-level)." in result.output
+
     def test_apply_to_output(self, sample_pdf: Path, tmp_path: Path):
         toc_data = [{"title": "Only", "pageNumber": 1, "children": []}]
         toc_file = tmp_path / "toc.json"

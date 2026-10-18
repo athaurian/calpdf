@@ -31,6 +31,9 @@ class TestExtractCoverCLI:
         assert result.exit_code == 0, result.output
         assert out.exists()
         assert "success:" in result.output.lower()
+        with Image.open(out) as img:
+            expected = f"{img.format}, {img.width}x{img.height}."
+        assert expected in result.output
 
     def test_extract_default_path(self, sample_jpeg: Path, tmp_path: Path, monkeypatch):
         pdf = tmp_path / "book.pdf"
