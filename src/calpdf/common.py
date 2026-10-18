@@ -2,6 +2,8 @@ import shutil
 from pathlib import Path
 from typing import Optional
 
+from calpdf import output
+
 
 class AppError(Exception):
     pass
@@ -44,6 +46,7 @@ def ensure_backup(output_file: Path, backup_file: Path) -> Path:
     present or the copy fails.
     """
     if backup_file.is_file():
+        _warn_about_stale_backup(output_file, backup_file)
         return backup_file
     if not output_file.is_file():
         raise AppError(f"Neither '{output_file}' nor '{backup_file}' found.")
@@ -54,6 +57,26 @@ def ensure_backup(output_file: Path, backup_file: Path) -> Path:
             f"Could not create backup '{backup_file}': {message(exc)}"
         ) from exc
     return backup_file
+
+
+def _warn_about_stale_backup(output_file: Path, backup_file: Path) -> None:
+    """Warn when *backup_file* is older than *output_file*.
+
+    Commands read the backup as their source. A PDF that was rewritten after
+    the backup was captured would otherwise be replaced by a version based on
+    the backup, discarding the newer content without notice.
+    """
+    try:
+        stale = backup_file.stat().st_mtime < output_file.stat().st_mtime
+    except OSError:
+        return
+    if not stale:
+        return
+    output.warning(
+        f"'{backup_file}' is older than '{output_file}'. The command reads "
+        "the backup as its source, so anything newer in the PDF is discarded. "
+        "To base the command on the current file, delete the backup first."
+    )
 
 
 def validate_input_file(path: Path, label: str = "File") -> None:

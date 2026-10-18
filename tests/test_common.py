@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import pytest
@@ -65,6 +66,25 @@ class TestEnsureBackup:
     def test_neither_exists(self, tmp_path: Path):
         with pytest.raises(AppError, match="Neither"):
             ensure_backup(tmp_path / "x.pdf", tmp_path / "x.pdf.bak")
+
+    def test_stale_backup_warns(self, tmp_path: Path, capsys):
+        out = tmp_path / "f.pdf"
+        bak = tmp_path / "f.pdf.bak"
+        bak.write_text("old")
+        out.write_text("new")
+        os.utime(bak, (1_000_000, 1_000_000))
+        os.utime(out, (2_000_000, 2_000_000))
+        ensure_backup(out, bak)
+        captured = capsys.readouterr()
+        assert "older than" in captured.err
+        assert "delete the backup first" in captured.err
+
+    def test_fresh_backup_does_not_warn(self, tmp_path: Path, capsys):
+        out = tmp_path / "f.pdf"
+        out.write_text("data")
+        ensure_backup(out, out.with_name(out.name + ".bak"))
+        captured = capsys.readouterr()
+        assert "older than" not in captured.err
 
 
 class TestValidateInputFile:
