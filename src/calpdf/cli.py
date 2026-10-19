@@ -16,7 +16,10 @@ The JSON file is a list of entries, and each entry has three fields:
 
 'pageNumber' must be between 1 and the total number of pages. Page numbers are
 1-indexed physical page positions, so page 1 is the first page of the file,
-not the number printed on the page."""
+not the number printed on the page.
+
+'export-toc' writes null for a bookmark without a page target. 'apply-toc'
+rejects null values, so edit or remove those entries before applying the file."""
 
 # Backup behavior shared by every command that can modify a PDF in place.
 BACKUP_BEHAVIOR = """\
@@ -29,7 +32,7 @@ original, run 'calpdf restore' on the PDF."""
 
 app = typer.Typer(
     name="calpdf",
-    help="A simple PDF toolkit to run alongside Calibre.",
+    help="A simple PDF toolkit.",
     no_args_is_help=True,
     epilog=BACKUP_BEHAVIOR,
 )
@@ -49,7 +52,7 @@ def main(
         "--quiet",
         "-q",
         is_eager=True,
-        help="Suppress all output except errors and warnings.",
+        help="Suppress informational output except errors and warnings.",
     ),
     no_color: bool = typer.Option(
         False,

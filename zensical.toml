@@ -1,6 +1,6 @@
 [project]
 site_name = "calpdf"
-site_description = "A simple PDF toolkit to run alongside Calibre"
+site_description = "A simple PDF toolkit"
 site_url = "https://athaurian.github.io/calpdf/"
 repo_url = "https://github.com/athaurian/calpdf"
 repo_name = "athaurian/calpdf"
@@ -12,7 +12,15 @@ copyright = """
 # Lora is loaded as a webfont for the serif roles that extra.css assigns.
 extra_css = [
   "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=fallback",
+  "stylesheets/asciinema-player.css",
   "stylesheets/extra.css",
+  "stylesheets/calpdf.css",
+]
+
+# The player bundle and its initializer load after the theme's own scripts.
+extra_javascript = [
+  "javascripts/asciinema-player.min.js",
+  "javascripts/asciinema.js",
 ]
 
 nav = [
@@ -78,6 +86,9 @@ toggle.name = "Switch to light mode"
 [project.markdown_extensions]
 admonition = {}
 attr_list = {}
+# Images open in a lightbox instead of being static. Light and dark variants
+# are separate galleries, so the hidden mode is not offered in the lightbox.
+zensical.extensions.glightbox.auto_themed = true
 def_list = {}
 footnotes = {}
 tables = {}

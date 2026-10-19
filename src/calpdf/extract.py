@@ -116,7 +116,7 @@ def main(
         None,
         "--output",
         "-o",
-        help="Output image path (default: <PDF_stem>_cover.jpg)",
+        help="Output image path (default: <PDF_stem>_cover.jpg or .png)",
     ),
     page: int = typer.Option(
         1,

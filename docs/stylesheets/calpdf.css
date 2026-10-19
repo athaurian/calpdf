@@ -1,0 +1,78 @@
+/* Site-specific styles. The shared theme lives in extra.css. */
+
+/* Terminal recordings sit in the text column like a code block. */
+.asciinema-demo {
+  position: relative;
+  margin: 0.8em 0 0.3em;
+}
+
+/* Keep the inactive player loaded but out of the layout. */
+.asciinema-stage[aria-hidden="true"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  visibility: hidden;
+}
+
+.asciinema-demo .ap-wrapper {
+  border-radius: 0.2rem;
+  overflow: hidden;
+}
+
+/* The recordings use the same 16-color mapping as the dotfiles terminals,
+   based on meta/palette.toml and meta/palette.py. asciinema.js keeps one
+   player per theme because the player snapshots these colors when it mounts,
+   then swaps the players when the site's scheme changes. */
+.ap-player.asciinema-player-theme-calpdf-light {
+  --term-color-background: #eaeaea;
+  --term-color-foreground: #303030;
+  --term-color-0: #eaeaea;
+  --term-color-1: #b10035;
+  --term-color-2: #376200;
+  --term-color-3: #725200;
+  --term-color-4: #005b92;
+  --term-color-5: #9400b3;
+  --term-color-6: #00616a;
+  --term-color-7: #303030;
+  --term-color-8: #676767;
+  --term-color-9: #96002b;
+  --term-color-10: #2d5300;
+  --term-color-11: #604500;
+  --term-color-12: #004c7d;
+  --term-color-13: #7d0099;
+  --term-color-14: #00525a;
+  --term-color-15: #000000;
+}
+
+.ap-player.asciinema-player-theme-calpdf-dark {
+  --term-color-background: #202020;
+  --term-color-foreground: #d4d4d4;
+  --term-color-0: #202020;
+  --term-color-1: #fe4864;
+  --term-color-2: #89c952;
+  --term-color-3: #f4bc45;
+  --term-color-4: #48afff;
+  --term-color-5: #d95afc;
+  --term-color-6: #00bbcc;
+  --term-color-7: #d4d4d4;
+  --term-color-8: #8a8a8a;
+  --term-color-9: #ff7376;
+  --term-color-10: #b9ee7d;
+  --term-color-11: #ffd678;
+  --term-color-12: #98c3ff;
+  --term-color-13: #e67fff;
+  --term-color-14: #3ddaee;
+  --term-color-15: #ffffff;
+}
+
+.asciinema-caption {
+  margin: 0.3em 0 1.2em;
+  font-family: var(--md-text-font-family);
+  font-weight: 300;
+  font-size: 0.6rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--md-default-fg-color--light);
+  text-align: center;
+}

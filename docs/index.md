@@ -4,26 +4,20 @@ template: home.html
 
 # calpdf
 
-Hi. This is a simple PDF toolkit to run alongside Calibre.
+Hi. This is a simple PDF toolkit. I use it alongside Calibre, but it really is just a standalone tool I made for myself.
 
-Calibre organizes your e-book library, but it's the wrong tool for editing an individual PDF. calpdf handles jobs that normally need a PDF editor, like downloading a cover, swapping it in, shrinking a PDF, or rewriting the bookmarks, each as a single command. It edits the PDF file in place and keeps a backup of the original. It works on files in your Calibre library or any other folder.
+calpdf handles the small jobs that usually come up when dealing with PDFs, such as replacing a PDF's cover, reducing its file size when possible, and editing its table of contents. calpdf can fetch covers from various sources too, as a bonus.
 
-A typical session on one book looks like this:
+When calpdf changes a PDF in place, it keeps a `.bak` backup of the original, so it's unlikely that you'll experience severe data loss when using the tool.
 
-```bash
-# See what you are starting with
-calpdf info book.pdf
+I made calpdf because I wanted a small CLI tool for these jobs, not another bloated PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
-# Download a cover and apply it in one step
-calpdf set-cover book.pdf 9780387967875
+---
 
-# Make a PDF smaller (hopefully)
-calpdf optimize book.pdf
+<div class="asciinema-demo" role="group" data-asciinema-cast="assets/casts/cover-and-restore.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of the cover and restore flow"></div>
+<p class="asciinema-caption">The sample book is small, so the numbers are small too.</p>
 
-# Pull the bookmarks out, write the entries by hand, and put them back
-calpdf export-toc book.pdf -o toc.json
-calpdf apply-toc book.pdf toc.json
-```
+---
 
 This documentation is for people who are comfortable using a terminal. Start with [Installation](installation.md).
 
@@ -32,13 +26,13 @@ This documentation is for people who are comfortable using a terminal. Start wit
 Each command has its own page with its options and examples:
 
 - The [`replace-cover`](commands/replace-cover.md) command replaces the first page of a PDF with a cover image, or inserts the image as a new first page.
-- The [`dl-cover`](commands/dl-cover.md) command downloads a cover image for a book.
-- The [`set-cover`](commands/set-cover.md) command downloads a cover and applies it to a PDF in one step.
+- The [`dl-cover`](commands/dl-cover.md) command downloads a cover image for a book by ASIN or ISBN.
+- The [`set-cover`](commands/set-cover.md) command downloads a cover by ASIN or ISBN and applies it to a PDF in one step.
 - The [`extract-cover`](commands/extract-cover.md) command extracts the cover image from a PDF page and saves it as a separate file.
-- The [`optimize`](commands/optimize.md) command makes a PDF smaller with `qpdf`.
-- The [`info`](commands/info.md) command shows information about a PDF, such as its page count and file size.
+- The [`optimize`](commands/optimize.md) command tries to make a PDF smaller with `qpdf`.
+- The [`info`](commands/info.md) command shows information about a PDF, such as its page count, file size, bookmarks, and page sizes.
 - The [`export-toc`](commands/export-toc.md) command exports the bookmarks, or _table of contents (ToC)_, of a PDF.
-- The [`apply-toc`](commands/apply-toc.md) command replaces the bookmarks of a PDF from a JSON file.
+- The [`apply-toc`](commands/apply-toc.md) command replaces the bookmarks of a PDF with the table of contents from a JSON file.
 - The [`restore`](commands/restore.md) command copies the `.bak` backup back over a PDF and deletes the backup.
 
 ## Options and reference

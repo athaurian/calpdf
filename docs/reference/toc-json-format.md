@@ -18,6 +18,6 @@ A ToC file is a list of entries, and each entry has a `title`, a `pageNumber`, a
 ]
 ```
 
-[`export-toc`](../commands/export-toc.md) produces files in this format, and [`apply-toc`](../commands/apply-toc.md) reads them to replace a PDF's bookmarks.
+[`export-toc`](../commands/export-toc.md) produces files in this format, and [`apply-toc`](../commands/apply-toc.md) reads them to replace a PDF's bookmarks. `export-toc` writes `null` for a bookmark without a page target, and `apply-toc` rejects it, so edit or remove those entries before you apply the file.
 
 For the field-by-field specification, run `calpdf apply-toc --help`.

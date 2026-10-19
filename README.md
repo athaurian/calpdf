@@ -5,9 +5,13 @@
 
 </div>
 
-Hi. This is a simple PDF toolkit to run alongside Calibre.
+Hi. This is a simple PDF toolkit. I use it alongside Calibre, but it really is just a standalone tool I made for myself.
 
-Calibre organizes your e-book library, but it's the wrong tool for editing an individual PDF. calpdf handles jobs that normally need a PDF editor, like downloading a cover, swapping it in, shrinking a PDF, or rewriting the bookmarks, each as a single command. It edits the PDF file in place and keeps a backup of the original. It works on files in your Calibre library or any other folder.
+calpdf handles the small jobs that usually come up when dealing with PDFs, such as replacing a PDF's cover, reducing its file size when possible, and editing its table of contents. calpdf can fetch covers from various sources too, as a bonus.
+
+When calpdf changes a PDF in place, it keeps a `.bak` backup of the original, so it's unlikely that you'll experience severe data loss when using the tool.
+
+I made calpdf because I wanted a small CLI tool for these jobs, not another bloated PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
 A typical session on one book looks like this:
 

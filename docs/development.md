@@ -1,56 +1,76 @@
 # Development
 
-To set up a development environment, run the following command:
+calpdf needs Python 3.11 or later, [uv](https://docs.astral.sh/uv/), and Git. The common checks also need `make` and Node.js, because the Makefile runs Prettier through `npx`.
+
+## Set up the checkout
+
+Clone the repository and enter it:
+
+```bash
+git clone https://github.com/athaurian/calpdf.git
+cd calpdf
+```
+
+Install the project and its development tools:
 
 ```bash
 uv sync --dev
 ```
 
-The command installs the project and its development tools (`pytest`, `ruff`, `mypy`, and `zensical`).
+This creates a virtual environment in `.venv` and installs calpdf, pytest, Ruff, mypy, and Zensical. The `--dev` flag includes the development dependency group from `pyproject.toml`.
 
-To run the CLI from the working tree without installing it, use the following commands:
+## Run the checkout
+
+Use `uv run` to run calpdf from the checkout without a separate global install:
 
 ```bash
 uv run calpdf --version
-uv run python -m calpdf --version   # equivalent module entry point
+uv run calpdf info book.pdf
 ```
 
-To run tests and quality checks, use the following commands:
+`uv run python -m calpdf` reaches the same entry point. To try `optimize`, install `qpdf` first, as described in [External dependencies](installation.md#external-dependencies).
+
+## Project layout
+
+- `src/calpdf/` holds the package and command modules. `cli.py` registers the commands.
+- `tests/` holds the pytest suite and the fixtures that build sample PDFs and images.
+- `docs/` holds the Markdown source for this site. `zensical.toml` defines the navigation and theme.
+- `Makefile` wraps the common checks.
+
+## Test and lint
+
+Run the narrowest check while you work, then run `make check` before you open a pull request. It runs the lint checks, builds the documentation, and runs the test suite.
+
+- `make test` runs the pytest suite.
+- `make lint` runs Ruff, mypy, and Prettier without changing files.
+- `make format` rewrites Python and Markdown with Ruff and Prettier.
+- `make docs` builds the site and fails on broken links or missing pages.
+- `make check` runs the lint checks, the docs build, and the tests.
+
+To run one test file, give it to pytest directly:
 
 ```bash
-make check   # lint, type check, format check, docs build, and test
-make test    # run tests only
-make lint    # lint without modifying files
-make format  # format Python and Markdown
+uv run pytest tests/test_toc.py
 ```
 
-`make check` runs `ruff`, `mypy`, and `pytest`. It checks `README.md` and `docs/` with `prettier --check`, and it builds the documentation site in strict mode. You can also run the tools directly with `uv run`.
+You can add `::TestValidateToc` or a test name to run a smaller part of the file.
 
 ## Documentation
 
-This site is built with [Zensical](https://zensical.org/). The content lives in `docs/`, and the site configuration lives in `zensical.toml`.
-
-The look comes from the shared [docs-theme](https://github.com/athaurian/docs-theme) repository. `docs/stylesheets/extra.css` and `overrides/home.html` are copies of its files, and its `make sync` copies them here.
-
-To preview the site locally while you edit:
+The site is built with [Zensical](https://zensical.org/). Preview it while you edit:
 
 ```bash
 make docs-serve
 ```
 
-To build the site once and fail on broken links or missing pages:
+Zensical prints the preview address when it starts, and the preview reloads when a file changes. To build it once instead, run `make docs`.
 
-```bash
-make docs
-```
+The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. `docs/stylesheets/extra.css` and `overrides/home.html` are copies of its files. Make theme changes in docs-theme and run its `make sync`, rather than editing the copies here. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
 
-To publish a change, merge it to `main`. The `docs` workflow in `.github/workflows/docs.yml` builds the site and deploys it to GitHub Pages.
+To publish a change, merge it to `main`. The docs workflow builds the site for every pull request and every push to `main`. Only a push to `main` deploys the site to GitHub Pages.
 
 ## Continuous integration
 
-The _continuous integration (CI)_ workflow in `.github/workflows/ci.yml` runs the same checks:
-
-- A lint job with `ruff check`, `ruff format --check`, and `mypy`.
-- A test matrix on Python versions 3.11 through 3.13.
+The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pull requests. A lint job runs `ruff check`, `ruff format --check`, and `mypy`. A test job runs pytest on Python 3.11, 3.12, and 3.13.
 
 Dependencies are pinned in `uv.lock`. After you change `pyproject.toml`, run `uv lock` and commit the updated lockfile.

@@ -1,12 +1,23 @@
 # Installation
 
-You need Python 3.11 or later and the `uv` package manager. If you don't have `uv` yet, see the [uv installation guide](https://docs.astral.sh/uv/).
+You need Python 3.11 or later, [Git](https://git-scm.com/downloads), and the `uv` package manager. If you don't have `uv` yet, see the [uv installation guide](https://docs.astral.sh/uv/).
 
-To install calpdf, run the following command from the project directory:
+## Install from source
+
+Clone the repository and enter it:
 
 ```bash
-uv pip install .
+git clone https://github.com/athaurian/calpdf.git
+cd calpdf
 ```
+
+Install the command with `uv`:
+
+```bash
+uv tool install .
+```
+
+This installs calpdf in its own environment. If the `calpdf` command is not found afterward, run `uv tool update-shell` and restart your shell.
 
 To set up a development environment instead, see [Development](development.md).
 

@@ -1,6 +1,6 @@
 # The `restore` command
 
-The `restore` command copies the `.bak` backup back over the PDF and deletes the backup. Use it to undo an in-place edit, such as a bad `apply-toc` or `optimize` run.
+The `restore` command copies the `.bak` backup back over the PDF and deletes the backup. Use it to undo an in-place edit, such as a bad run of either `apply-toc` or `optimize`.
 
 ```bash
 calpdf restore book.pdf
