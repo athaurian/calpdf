@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import pikepdf
 from typer.testing import CliRunner
 
 from calpdf.cli import app
@@ -14,6 +15,20 @@ class TestInfoCLI:
         assert result.exit_code == 0, result.output
         assert "pages:" in result.output.lower()
         assert "bookmarks:" in result.output.lower()
+
+    def test_text_uses_singular_for_one_remaining_page(self, tmp_path: Path):
+        pdf_path = tmp_path / "six-pages.pdf"
+        pdf = pikepdf.Pdf.new()
+        for _ in range(6):
+            pdf.add_blank_page(page_size=(612, 792))
+        pdf.save(pdf_path)
+        pdf.close()
+
+        result = runner.invoke(app, ["info", str(pdf_path)])
+
+        assert result.exit_code == 0, result.output
+        assert "and 1 more page" in result.output
+        assert "and 1 more pages" not in result.output
 
     def test_json_stdout(self, sample_pdf_with_toc: Path):
         result = runner.invoke(

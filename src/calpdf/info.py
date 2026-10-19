@@ -98,7 +98,9 @@ def _render_text(info: dict[str, Any]) -> str:
             f"x{entry['height']:.1f} pt, rotate {entry['rotate']}"
         )
     if info["pages"] > 5:
-        lines.append(f"  ... and {info['pages'] - 5} more pages")
+        remaining = info["pages"] - 5
+        noun = "page" if remaining == 1 else "pages"
+        lines.append(f"  ... and {remaining} more {noun}")
     return "\n".join(lines)
 
 
@@ -120,8 +122,8 @@ def main(
     """Show information about a PDF.
 
     The command reports the number of pages, the PDF version, the file
-    size, the bookmark count, and the size of each page. Use --format json
-    to produce machine-readable output that you can pipe to another program.
+    size, the bookmark count, and the page sizes. Use --format json to
+    produce machine-readable output that you can pipe to another program.
     """
     try:
         if output_file is not None and fmt == InfoFormat.text:
