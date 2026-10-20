@@ -65,7 +65,7 @@ make docs-serve
 
 Zensical prints the preview address when it starts, and the preview reloads when a file changes. To build it once instead, run `make docs`.
 
-The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. `docs/stylesheets/extra.css` and `overrides/home.html` are copies of its files. Make theme changes in docs-theme and run its `make sync`, rather than editing the copies here. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
+The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. `docs/stylesheets/extra.css`, `overrides/home.html`, `overrides/main.html`, and `docs/javascripts/theme-transition.js` are copies of its files. Make theme changes in docs-theme and run its `make sync`, rather than editing the copies here. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
 
 To publish a change, merge it to `main`. The docs workflow builds the site for every pull request and every push to `main`. Only a push to `main` deploys the site to GitHub Pages.
 

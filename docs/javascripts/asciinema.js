@@ -5,11 +5,34 @@
   var scheme = null;
   var applyingTheme = false;
   var pendingTheme = false;
+  var settledWaiters = [];
 
   function currentScheme() {
     return document.body.getAttribute("data-md-color-scheme") === "slate"
       ? "dark"
       : "light";
+  }
+
+  function settleTheme() {
+    var waiters = settledWaiters;
+    settledWaiters = [];
+    waiters.forEach(function (resolve) {
+      resolve();
+    });
+  }
+
+  // The shared transition calls this. The timeout lets the MutationObserver
+  // start the player swap before the promise resolves.
+  function whenThemeSettled() {
+    return new Promise(function (resolve) {
+      window.setTimeout(function () {
+        if (!applyingTheme) {
+          resolve();
+          return;
+        }
+        settledWaiters.push(resolve);
+      }, 0);
+    });
   }
 
   function playerOptions(theme, poster) {
@@ -217,6 +240,7 @@
     var next = currentScheme();
 
     if (next === scheme) {
+      settleTheme();
       return;
     }
 
@@ -240,7 +264,9 @@
       if (pendingTheme) {
         pendingTheme = false;
         refresh();
+        return;
       }
+      settleTheme();
     }
 
     records.forEach(function (record) {
@@ -271,6 +297,8 @@
       attributeFilter: ["data-md-color-scheme"],
     });
   }
+
+  window.docsThemeSettled = whenThemeSettled;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
