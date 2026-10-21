@@ -4,7 +4,7 @@ template: home.html
 
 # calpdf
 
-Hi. This is a simple PDF toolkit. I use it alongside Calibre, but it really is just a standalone tool I made for myself.
+Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd rather read the source code, it's on [GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but it really is just a standalone tool I made for myself.
 
 calpdf handles the small jobs that usually come up when dealing with PDFs, such as replacing a PDF's cover, reducing its file size when possible, and editing its table of contents. calpdf can fetch covers from various sources too, as a bonus.
 
