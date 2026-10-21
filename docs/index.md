@@ -14,7 +14,7 @@ I made calpdf because I wanted a small CLI tool for these jobs, not another bloa
 
 ---
 
-<div class="asciinema-demo" role="group" data-asciinema-cast="assets/casts/cover-and-restore.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of the cover and restore flow"></div>
+<div class="asciinema-demo" role="group" data-asciinema-cast="assets/casts/cover-and-restore.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of a cover replacement and restore session"></div>
 <p class="asciinema-caption">The sample book is small, so the numbers are small too.</p>
 
 ---

@@ -17,5 +17,5 @@ To export the bookmarks of a PDF as JSON first, use [`export-toc`](export-toc.md
 
 ## Demo
 
-<div class="asciinema-demo" role="group" data-asciinema-cast="../../assets/casts/toc-round-trip.cast" data-asciinema-poster="npt:2" aria-label="Exporting the current tree, applying a prepared toc.json, exporting the result, and restoring the backup. The sample book is small, so the numbers are small too."></div>
-<p class="asciinema-caption">Exporting the current tree, applying a prepared <code>toc.json</code>, exporting the result, and restoring the backup. The sample book is small, so the numbers are small too.</p>
+<div class="asciinema-demo" role="group" data-asciinema-cast="../../assets/casts/toc-round-trip.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of a table of contents round trip"></div>
+<p class="asciinema-caption">The sample book is small, so the numbers are small too.</p>
