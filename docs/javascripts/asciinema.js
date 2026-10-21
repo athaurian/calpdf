@@ -6,6 +6,7 @@
   var applyingTheme = false;
   var pendingTheme = false;
   var settledWaiters = [];
+  var playerId = 0;
 
   function currentScheme() {
     return document.body.getAttribute("data-md-color-scheme") === "slate"
@@ -60,6 +61,20 @@
     return options;
   }
 
+  // Each player builds its own start-overlay SVG with the same mask id. Give
+  // every player a unique id so a hidden player cannot mask the visible one.
+  function namespacePlayerMasks(stage) {
+    var id = ++playerId;
+    stage.querySelectorAll("mask[id]").forEach(function (mask) {
+      var oldId = mask.id;
+      var newId = "calpdf-" + oldId + "-" + id;
+      mask.id = newId;
+      stage.querySelectorAll('[mask="url(#' + oldId + ')"]').forEach(function (target) {
+        target.setAttribute("mask", "url(#" + newId + ")");
+      });
+    });
+  }
+
   function createEntry(record, theme, hidden) {
     var stage = document.createElement("div");
     stage.className = "asciinema-stage";
@@ -80,6 +95,7 @@
       stage,
       playerOptions(theme, record.poster),
     );
+    namespacePlayerMasks(stage);
 
     function markPlaying() {
       entry.playing = true;
