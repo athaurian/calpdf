@@ -29,7 +29,7 @@ The [`info`](commands/info.md) command reads a PDF and prints what it finds. It 
 calpdf info book.pdf
 ```
 
-When you are ready to change something, [`set-cover`](commands/set-cover.md) and [`optimize`](commands/optimize.md) are good first jobs. For a full pass over one book, see the example session on the [home page](index.md).
+When you are ready to change something, the [`set-cover`](commands/set-cover.md) and [`optimize`](commands/optimize.md) commands are good first jobs. For a full pass over one book, see the example session on the [home page](index.md).
 
 ## Arch Linux
 

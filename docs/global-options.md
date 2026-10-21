@@ -8,7 +8,7 @@ calpdf --no-color COMMAND ...   # disable colored output
 calpdf --version                # show the version and exit
 ```
 
-`--quiet` does not suppress JSON data. `info --format json` and `export-toc` still write their JSON to standard output.
+The `--quiet` option does not suppress JSON data. The `info --format json` and `export-toc` commands still write their JSON to standard output.
 
 The `--quiet` and `--version` options have the short forms `-q` and `-v`. To see the help text and the list of commands, run `calpdf` without arguments. To view a command's options, run `calpdf COMMAND --help`.
 

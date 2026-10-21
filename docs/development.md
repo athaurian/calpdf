@@ -28,24 +28,24 @@ uv run calpdf --version
 uv run calpdf info book.pdf
 ```
 
-`uv run python -m calpdf` reaches the same entry point. To try `optimize`, install `qpdf` first, as described in [External dependencies](installation.md#external-dependencies).
+The `uv run python -m calpdf` command reaches the same entry point. To try `optimize`, install `qpdf` first, as described in [External dependencies](installation.md#external-dependencies).
 
 ## Project layout
 
-- `src/calpdf/` holds the package and command modules. `cli.py` registers the commands.
-- `tests/` holds the pytest suite and the fixtures that build sample PDFs and images.
-- `docs/` holds the Markdown source for this site. `zensical.toml` defines the navigation and theme.
-- `Makefile` wraps the common checks.
+- The `src/calpdf/` directory holds the package and command modules. The `cli.py` module registers the commands.
+- The `tests/` directory holds the pytest suite and the fixtures that build sample PDFs and images.
+- The `docs/` directory holds the Markdown source for this site. The `zensical.toml` file defines the navigation and theme.
+- The `Makefile` wraps the common checks.
 
 ## Test and lint
 
 Run the narrowest check while you work, then run `make check` before you open a pull request. It runs the lint checks, builds the documentation, and runs the test suite.
 
-- `make test` runs the pytest suite.
-- `make lint` runs Ruff, mypy, and Prettier without changing files.
-- `make format` rewrites Python and Markdown with Ruff and Prettier.
-- `make docs` builds the site and fails on broken links or missing pages.
-- `make check` runs the lint checks, the docs build, and the tests.
+- The `make test` command runs the pytest suite.
+- The `make lint` command runs Ruff, mypy, and Prettier without changing files.
+- The `make format` command rewrites Python and Markdown with Ruff and Prettier.
+- The `make docs` command builds the site and fails on broken links or missing pages.
+- The `make check` command runs the lint checks, the docs build, and the tests.
 
 To run one test file, give it to pytest directly:
 
@@ -65,7 +65,7 @@ make docs-serve
 
 Zensical prints the preview address when it starts, and the preview reloads when a file changes. To build it once instead, run `make docs`.
 
-The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. `docs/stylesheets/extra.css`, `overrides/home.html`, `overrides/main.html`, and `docs/javascripts/theme-transition.js` are copies of its files. Make theme changes in docs-theme and run its `make sync`, rather than editing the copies here. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
+The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. The files `docs/stylesheets/extra.css`, `overrides/home.html`, `overrides/main.html`, and `docs/javascripts/theme-transition.js` are copies of its files. Make theme changes in docs-theme and run its `make sync`, rather than editing the copies here. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
 
 To publish a change, merge it to `main`. The docs workflow builds the site for every pull request and every push to `main`. Only a push to `main` deploys the site to GitHub Pages.
 

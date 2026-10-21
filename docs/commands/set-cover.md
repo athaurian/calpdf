@@ -9,4 +9,4 @@ calpdf set-cover book.pdf 9780387967875 --mode insert
 
 The first example replaces the first page with the downloaded cover. The second inserts the cover as a new first page and keeps all the pages.
 
-The command accepts the same options as `replace-cover`, except for the image argument. For more information about these options, see [The `replace-cover` command](replace-cover.md).
+The command accepts the same options as the `replace-cover` command, except for the image argument. For more information about these options, see [The `replace-cover` command](replace-cover.md).

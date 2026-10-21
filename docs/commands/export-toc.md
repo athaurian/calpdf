@@ -12,7 +12,7 @@ calpdf export-toc book.pdf --format tree
 
 With `--format tree`, calpdf prints the tree to the terminal, and the `--output` option has no effect. calpdf prints a warning if you pass it anyway.
 
-The JSON output matches the format described in [The ToC JSON format](../reference/toc-json-format.md). A bookmark without a page target gets a `pageNumber` of `null`. [`apply-toc`](apply-toc.md) rejects `null`, so edit or remove those entries before you apply the file.
+The JSON output matches the format described in [The ToC JSON format](../reference/toc-json-format.md). A bookmark without a page target gets a `pageNumber` of `null`. The [`apply-toc`](apply-toc.md) command rejects `null`, so edit or remove those entries before you apply the file.
 
 ## A book with no bookmarks
 
