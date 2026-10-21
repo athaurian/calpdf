@@ -19,7 +19,7 @@ I made calpdf because I wanted a small CLI tool for these jobs, not another bloa
 
 ---
 
-This documentation is for people who are comfortable using a terminal. Start with [Installation](installation.md).
+All of this is for people who are comfortable using a terminal. Start with [Installation](installation.md).
 
 ## Commands
 
