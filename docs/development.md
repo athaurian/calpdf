@@ -71,6 +71,9 @@ To publish a change, merge it to `main`. The docs workflow builds the site for e
 
 ## Continuous integration
 
-The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pull requests. A lint job runs `ruff check`, `ruff format --check`, and `mypy`. A test job runs pytest on Python 3.11, 3.12, and 3.13.
+The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pull requests. It has two jobs:
+
+- The lint job runs `ruff check`, `ruff format --check`, and `mypy`.
+- The test job runs pytest on Python 3.11, 3.12, and 3.13.
 
 Dependencies are pinned in `uv.lock`. After you change `pyproject.toml`, run `uv lock` and commit the updated lockfile.

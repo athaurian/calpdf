@@ -13,4 +13,9 @@ calpdf info book.pdf --format json
 calpdf info book.pdf --format json -o info.json
 ```
 
-By default, calpdf prints a summary to the terminal. To produce machine-readable output that you can pipe to another program, use `--format json`. With `--format json`, you can write the output to a file with `--output`. With `--format text`, the `--output` option has no effect and calpdf prints a warning if you pass it anyway.
+The `--format` option selects one of two output modes:
+
+| `--format` value | Behavior                                                                                                                     |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `text` (default) | Prints a summary to the terminal. The `--output` option has no effect, and calpdf prints a warning if you pass it.           |
+| `json`           | Prints machine-readable JSON to standard output so you can pipe it to another program. Use `--output` to write it to a file. |

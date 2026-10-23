@@ -19,10 +19,14 @@ To write the original bytes without re-encoding, use `--raw`. With `--raw`, calp
 
 ## Reusing the cover in Calibre
 
-Extract the cover when you need the image on its own, for example to set it as the book's cover in Calibre:
+Extract the cover when you need the image on its own:
 
 ```bash
 calpdf extract-cover book.pdf
 ```
 
-In Calibre, open the book, choose **Edit metadata**, and drag `book_cover.jpg` or `book_cover.png` onto the cover on the right.
+To set the extracted image as the book's cover in Calibre:
+
+1. Open the book.
+2. Choose **Edit metadata**.
+3. Drag `book_cover.jpg` or `book_cover.png` onto the cover on the right.

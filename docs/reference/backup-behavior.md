@@ -6,7 +6,7 @@ Commands that modify a PDF in place ([`replace-cover`](../commands/replace-cover
 calpdf restore book.pdf
 ```
 
-The backup is created once, before the first change. Later changes leave it as it is. The backup always holds the version from before that first change. To start a fresh backup, remove the `.bak` file and run the command again.
+The backup is created once, before the first change. Later changes leave it unchanged, so the backup always holds the version from before that first change. To start a fresh backup, remove the `.bak` file and run the command again.
 
 A command reads the backup as its source, so its output is based on the backup. When the PDF is newer than the backup, because you edited it or ran another command, calpdf prints a warning before it discards the newer content.
 

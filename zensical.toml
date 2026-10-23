@@ -1,6 +1,6 @@
 [project]
 site_name = "calpdf"
-site_description = "A simple PDF toolkit"
+site_description = "A simple PDF toolkit to run alongside Calibre."
 site_url = "https://athaurian.github.io/calpdf/"
 repo_url = "https://github.com/athaurian/calpdf"
 repo_name = "athaurian/calpdf"

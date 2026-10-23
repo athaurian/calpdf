@@ -18,13 +18,20 @@ calpdf replace-cover book.pdf cover.jpg -o output.pdf
 calpdf replace-cover book.pdf cover.jpg --pages 2
 ```
 
-By default, the command updates the PDF in place and keeps a backup of the original file. To write to a new file instead, use `--output` (short form `-o`). For more information, see [Backup behavior](../reference/backup-behavior.md).
+By default, the command updates the PDF in place and keeps a backup of the original file. These options control where the result goes and how the cover is built:
 
-The `--pages` option controls how many pages the image replaces, and it only matters in replace mode. The `--dpi` option sets the resolution of the cover image, with a default of 300 dots per inch.
+| Option           | Effect                                                                     |
+| ---------------- | -------------------------------------------------------------------------- |
+| `--output`, `-o` | Writes the result to a new file.                                           |
+| `--mode`         | Selects `replace` (the default) or `insert`; `insert` keeps all pages.     |
+| `--pages`        | Controls how many pages the image replaces (only used in replace mode).    |
+| `--dpi`          | Sets the resolution of the cover image (the default is 300 dots per inch). |
+
+For more information, see [Backup behavior](../reference/backup-behavior.md).
 
 The `--fit` option controls how the image fits on the page:
 
-- `match-width` is the default. The cover page keeps the width of the body pages, and its height follows the image's aspect ratio, so the image fills the page with no cropping and no empty space.
+- `match-width` (the default) keeps the width of the body pages and sets the height from the image's aspect ratio, so the image fills the page with no cropping and no empty space.
 - `fill` scales the image to cover the exact body page size and crops the parts that overflow.
 - `fit` scales the image to fit inside the exact body page size and centers it on a white background.
 
