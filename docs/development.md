@@ -32,20 +32,24 @@ The `uv run python -m calpdf` command reaches the same entry point. To try `opti
 
 ## Project layout
 
-- The `src/calpdf/` directory holds the package and command modules. The `cli.py` module registers the commands.
-- The `tests/` directory holds the pytest suite and the fixtures that build sample PDFs and images.
-- The `docs/` directory holds the Markdown source for this site. The `zensical.toml` file defines the navigation and theme.
-- The `Makefile` wraps the common checks.
+| Path          | Contents                                                                    |
+| ------------- | --------------------------------------------------------------------------- |
+| `src/calpdf/` | Package and command modules; `cli.py` registers the commands                |
+| `tests/`      | Pytest suite and fixtures that build sample PDFs and images                 |
+| `docs/`       | Markdown source for this site; `zensical.toml` defines navigation and theme |
+| `Makefile`    | Wraps the common checks                                                     |
 
 ## Test and lint
 
 Run the narrowest check while you work, then run `make check` before you open a pull request. It runs the lint checks, builds the documentation, and runs the test suite.
 
-- The `make test` command runs the pytest suite.
-- The `make lint` command runs Ruff, mypy, and Prettier without changing files.
-- The `make format` command rewrites Python and Markdown with Ruff and Prettier.
-- The `make docs` command builds the site and fails on broken links or missing pages.
-- The `make check` command runs the lint checks, the docs build, and the tests.
+| Command       | Action                                                     |
+| ------------- | ---------------------------------------------------------- |
+| `make test`   | Runs the pytest suite                                      |
+| `make lint`   | Runs Ruff, mypy, and Prettier without changing files       |
+| `make format` | Rewrites Python and Markdown with Ruff and Prettier        |
+| `make docs`   | Builds the site and fails on broken links or missing pages |
+| `make check`  | Runs the lint checks, the docs build, and the tests        |
 
 To run one test file, give it to pytest directly:
 
@@ -71,9 +75,11 @@ To publish a change, merge it to `main`. The docs workflow builds the site for e
 
 ## Continuous integration
 
-The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pull requests. It has two jobs:
+The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pull requests.
 
-- The lint job runs `ruff check`, `ruff format --check`, and `mypy`.
-- The test job runs pytest on Python 3.11, 3.12, and 3.13.
+| Job  | Runs                                            |
+| ---- | ----------------------------------------------- |
+| lint | `ruff check`, `ruff format --check`, and `mypy` |
+| test | pytest on Python 3.11, 3.12, and 3.13           |
 
 Dependencies are pinned in `uv.lock`. After you change `pyproject.toml`, run `uv lock` and commit the updated lockfile.
