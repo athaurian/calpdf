@@ -110,3 +110,5 @@ pymdownx.tabbed.alternate_style = true
 [project.extra]
 generator = false
 homepage = "."
+# oembed.json carries the provider name and URL for link previews.
+oembed = "oembed.json"
