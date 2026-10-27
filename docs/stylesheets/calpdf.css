@@ -20,6 +20,12 @@
   overflow: hidden;
 }
 
+/* Keep embedded players' internal z-indexes from escaping above the
+   mobile drawer and its overlay. */
+.ap-wrapper {
+  isolation: isolate;
+}
+
 /* The recordings use the same 16-color mapping as the dotfiles terminals,
    based on meta/palette.toml and meta/palette.py. asciinema.js keeps one
    player per theme because the player snapshots these colors when it mounts,
