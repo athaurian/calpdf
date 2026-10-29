@@ -1,6 +1,8 @@
 import shutil
 import subprocess
 import tempfile
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal, Optional, overload
 
@@ -119,6 +121,98 @@ def strip_color_profiles(input_path: Path, output_path: Path) -> None:
         pdf.save(output_path)
 
 
+# ---------------------------------------------------------------------------
+# Library API. The CLI and other front ends call these. They never print.
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class OptimizeResult:
+    output_file: Path
+    backup_file: Optional[Path]
+    before: int
+    after: int
+    returncode: int
+    stderr: str
+
+
+def optimize(
+    input_pdf: Path,
+    output_pdf: Optional[Path] = None,
+    *,
+    force: bool = False,
+    strip_color: bool = False,
+    keep_metadata: bool = False,
+    progress: Optional[Callable[[str], None]] = None,
+) -> OptimizeResult:
+    """Optimize *input_pdf* with qpdf.
+
+    *progress* receives status lines as the work advances. Errors raise
+    :class:`AppError`, and qpdf problems are reported in the result so the
+    caller can decide how to phrase them.
+    """
+    if output_pdf is None or same_path(input_pdf, output_pdf):
+        output_file, backup_file = normalize_paths(input_pdf)
+        in_place = True
+    else:
+        output_file = output_pdf
+        backup_file = None
+        in_place = False
+
+    validate_input_file(input_pdf, label="Input PDF")
+    input_size = input_pdf.stat().st_size
+    validate_output_dir(output_file)
+    qpdf_bin = find_binary("qpdf", required=True)
+
+    if in_place:
+        assert backup_file is not None  # guaranteed by normalize_paths above
+        ensure_backup(output_file, backup_file)
+        source = backup_file
+    else:
+        source = input_pdf
+
+    with tempfile.TemporaryDirectory(dir=str(output_file.parent)) as tmp:
+        workdir = Path(tmp)
+        qpdf_source = source
+        if strip_color:
+            if progress:
+                progress("Stripping color profiles...")
+            stripped = workdir / "pre_optimize.pdf"
+            strip_color_profiles(source, stripped)
+            if progress:
+                progress("Color profiles removed.")
+            qpdf_source = stripped
+
+        if progress:
+            progress(f"Optimizing '{output_file}' with qpdf...")
+        temp_output = workdir / output_file.name
+        result = qpdf_optimize(
+            qpdf_bin, qpdf_source, temp_output, keep_metadata=keep_metadata
+        )
+        exit_code = result.returncode
+        qpdf_stderr = result.stderr.strip()
+
+        if exit_code not in (0, 3) and not force:
+            if qpdf_stderr:
+                raise AppError(f"qpdf failed (exit {exit_code}).\n{qpdf_stderr}")
+            raise AppError(f"qpdf failed (exit {exit_code}).")
+        if not temp_output.is_file() or temp_output.stat().st_size == 0:
+            raise AppError(
+                f"qpdf produced no output file at '{output_file}' "
+                f"(qpdf exit code: {exit_code})."
+            )
+        temp_output.replace(output_file)
+
+    return OptimizeResult(
+        output_file=output_file,
+        backup_file=backup_file if in_place else None,
+        before=input_size,
+        after=output_file.stat().st_size,
+        returncode=exit_code,
+        stderr=qpdf_stderr,
+    )
+
+
 def main(
     input_pdf: Path = typer.Argument(..., help="Path to the input PDF file"),
     force: bool = typer.Option(
@@ -144,75 +238,38 @@ def main(
     ),
 ) -> None:
     """Optimize a PDF with qpdf (linearize, compress, strip metadata)."""
-    if output_pdf is None or same_path(input_pdf, output_pdf):
-        output_file, backup_file = normalize_paths(input_pdf)
-        in_place = True
-    else:
-        output_file = output_pdf
-        backup_file = None
-        in_place = False
     try:
-        validate_input_file(input_pdf, label="Input PDF")
-        input_size = input_pdf.stat().st_size
-        validate_output_dir(output_file)
-        qpdf_bin = find_binary("qpdf", required=True)
-        if in_place:
-            assert backup_file is not None  # guaranteed by normalize_paths above
-            ensure_backup(output_file, backup_file)
-            source = backup_file
-        else:
-            source = input_pdf
-        with tempfile.TemporaryDirectory(dir=str(output_file.parent)) as tmp:
-            workdir = Path(tmp)
-            qpdf_source = source
-            if strip_color:
-                stripped = workdir / "pre_optimize.pdf"
-                output.info("Stripping color profiles...")
-                strip_color_profiles(source, stripped)
-                output.info("Color profiles removed.")
-                qpdf_source = stripped
-            output.info(f"Optimizing '{output_file}' with qpdf...")
-            temp_output = workdir / output_file.name
-            result = qpdf_optimize(
-                qpdf_bin, qpdf_source, temp_output, keep_metadata=keep_metadata
-            )
-            exit_code = result.returncode
-            qpdf_stderr = result.stderr.strip()
-            if exit_code != 0:
-                if exit_code == 3:
-                    if qpdf_stderr:
-                        output.warning(f"qpdf completed with warnings:\n{qpdf_stderr}")
-                    else:
-                        output.warning(
-                            "qpdf completed with warnings."
-                            " Inspect the output carefully."
-                        )
-                elif force:
-                    if qpdf_stderr:
-                        output.warning(
-                            f"qpdf failed (exit {exit_code}), "
-                            f"--force set, continuing anyway:\n{qpdf_stderr}"
-                        )
-                    else:
-                        output.warning(
-                            f"qpdf failed (exit {exit_code}), "
-                            "--force set, continuing anyway."
-                        )
-                elif qpdf_stderr:
-                    raise AppError(f"qpdf failed (exit {exit_code}).\n{qpdf_stderr}")
-                else:
-                    raise AppError(f"qpdf failed (exit {exit_code}).")
-            if not temp_output.is_file() or temp_output.stat().st_size == 0:
-                raise AppError(
-                    f"qpdf produced no output file at '{output_file}' "
-                    f"(qpdf exit code: {exit_code})."
-                )
-            temp_output.replace(output_file)
+        result = optimize(
+            input_pdf,
+            output_pdf,
+            force=force,
+            strip_color=strip_color,
+            keep_metadata=keep_metadata,
+            progress=output.info,
+        )
 
-        backup_note = f" (backup: '{backup_file}')" if backup_file else ""
-        output.success(f"Success: Optimized '{output_file}'{backup_note}.")
-        after_size = output_file.stat().st_size
-        output.detail(f"Size: {output.format_size_change(input_size, after_size)}")
+        if result.returncode == 3:
+            if result.stderr:
+                output.warning(f"qpdf completed with warnings:\n{result.stderr}")
+            else:
+                output.warning(
+                    "qpdf completed with warnings. Inspect the output carefully."
+                )
+        elif result.returncode != 0 and force:
+            if result.stderr:
+                output.warning(
+                    f"qpdf failed (exit {result.returncode}), "
+                    f"--force set, continuing anyway:\n{result.stderr}"
+                )
+            else:
+                output.warning(
+                    f"qpdf failed (exit {result.returncode}), "
+                    "--force set, continuing anyway."
+                )
+
+        backup_note = f" (backup: '{result.backup_file}')" if result.backup_file else ""
+        output.success(f"Success: Optimized '{result.output_file}'{backup_note}.")
+        output.detail(f"Size: {output.format_size_change(result.before, result.after)}")
 
     except typer.Exit:
         raise

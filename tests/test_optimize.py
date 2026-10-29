@@ -1,9 +1,12 @@
 import shutil
 from unittest.mock import patch, MagicMock
 from pathlib import Path
+import pytest
 from typer.testing import CliRunner
 
 from calpdf.cli import app
+from calpdf.common import AppError
+from calpdf.optimize import optimize
 
 runner = CliRunner()
 
@@ -275,3 +278,61 @@ class TestOptimizeSizeReport:
 
         assert result.exit_code == 0
         assert "Size:" not in result.output
+
+
+class TestOptimizeAPI:
+    def test_returns_sizes_and_status(self, sample_pdf: Path, tmp_path: Path):
+        out = tmp_path / "out.pdf"
+        with (
+            patch("calpdf.optimize.shutil.which", return_value="/usr/bin/qpdf"),
+            patch(
+                "calpdf.optimize.subprocess.run",
+                side_effect=_fake_qpdf_write(sample_pdf),
+            ),
+        ):
+            result = optimize(sample_pdf, out)
+
+        assert result.output_file == out
+        assert result.backup_file is None
+        assert result.before == sample_pdf.stat().st_size
+        assert result.after == out.stat().st_size
+        assert result.returncode == 0
+        assert result.stderr == ""
+
+    def test_in_place_reports_the_backup(self, sample_pdf: Path, tmp_path: Path):
+        with (
+            patch("calpdf.optimize.shutil.which", return_value="/usr/bin/qpdf"),
+            patch(
+                "calpdf.optimize.subprocess.run",
+                side_effect=_fake_qpdf_write(sample_pdf),
+            ),
+        ):
+            result = optimize(sample_pdf)
+
+        assert result.backup_file == sample_pdf.with_name("sample.pdf.bak")
+        assert result.backup_file.is_file()
+
+    def test_reports_progress_lines(self, sample_pdf: Path, tmp_path: Path):
+        lines: list[str] = []
+        with (
+            patch("calpdf.optimize.shutil.which", return_value="/usr/bin/qpdf"),
+            patch(
+                "calpdf.optimize.subprocess.run",
+                side_effect=_fake_qpdf_write(sample_pdf),
+            ),
+        ):
+            optimize(sample_pdf, tmp_path / "out.pdf", progress=lines.append)
+
+        assert any("Optimizing" in line for line in lines)
+
+    def test_raises_on_qpdf_failure(self, sample_pdf: Path, tmp_path: Path):
+        failed = MagicMock()
+        failed.returncode = 2
+        failed.stderr = "something broke"
+
+        with (
+            patch("calpdf.optimize.shutil.which", return_value="/usr/bin/qpdf"),
+            patch("calpdf.optimize.subprocess.run", return_value=failed),
+            pytest.raises(AppError, match="something broke"),
+        ):
+            optimize(sample_pdf, tmp_path / "out.pdf")

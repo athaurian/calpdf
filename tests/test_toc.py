@@ -1,10 +1,20 @@
 import json
 import pikepdf
+import pytest
 from pathlib import Path
 from typer.testing import CliRunner
 
 from calpdf.cli import app
-from calpdf.toc import extract_outline, validate_toc, build_outline_items
+from calpdf.common import AppError
+from calpdf.toc import (
+    TocValidationError,
+    build_outline_items,
+    extract_outline,
+    read_toc,
+    read_toc_file,
+    validate_toc,
+    write_toc,
+)
 
 runner = CliRunner()
 
@@ -281,3 +291,63 @@ class TestApplyTocCLI:
             assert orig["title"] == rt["title"]
             assert orig["pageNumber"] == rt["pageNumber"]
             assert len(orig["children"]) == len(rt["children"])
+
+
+class TestLibraryAPI:
+    def test_read_toc(self, sample_pdf_with_toc: Path):
+        toc = read_toc(sample_pdf_with_toc)
+
+        assert [entry["title"] for entry in toc] == ["Chapter 1", "Chapter 2"]
+        assert toc[1]["children"][0]["title"] == "Section 2.1"
+        assert toc[1]["children"][0]["pageNumber"] == 4
+
+    def test_write_toc_in_place_keeps_a_backup(self, sample_pdf: Path, tmp_path: Path):
+        entries = [
+            {"title": "Intro", "pageNumber": 1, "children": []},
+            {
+                "title": "Body",
+                "pageNumber": 2,
+                "children": [{"title": "Detail", "pageNumber": 3, "children": []}],
+            },
+        ]
+
+        count = write_toc(sample_pdf, entries)
+
+        assert count == 3
+        assert read_toc(sample_pdf)[0]["title"] == "Intro"
+        assert (tmp_path / "sample.pdf.bak").is_file()
+
+    def test_write_toc_rejects_bad_page_without_touching_files(
+        self, sample_pdf: Path, tmp_path: Path
+    ):
+        before = sample_pdf.read_bytes()
+        entries = [{"title": "Too far", "pageNumber": 99, "children": []}]
+
+        with pytest.raises(TocValidationError, match="exceeds total pages"):
+            write_toc(sample_pdf, entries)
+
+        assert sample_pdf.read_bytes() == before
+        assert not (tmp_path / "sample.pdf.bak").exists()
+
+    def test_write_toc_to_output_leaves_the_input_alone(
+        self, sample_pdf: Path, tmp_path: Path
+    ):
+        before = sample_pdf.read_bytes()
+        out = tmp_path / "out.pdf"
+
+        write_toc(sample_pdf, [{"title": "Only", "pageNumber": 2, "children": []}], out)
+
+        assert sample_pdf.read_bytes() == before
+        assert read_toc(out)[0]["title"] == "Only"
+        assert not (tmp_path / "sample.pdf.bak").exists()
+
+    def test_read_toc_file_reports_invalid_json(self, tmp_path: Path):
+        bad = tmp_path / "bad.json"
+        bad.write_text("{not json", encoding="utf-8")
+
+        with pytest.raises(AppError, match="Invalid JSON"):
+            read_toc_file(bad)
+
+    def test_read_toc_file_reports_a_missing_file(self, tmp_path: Path):
+        with pytest.raises(AppError):
+            read_toc_file(tmp_path / "nope.json")

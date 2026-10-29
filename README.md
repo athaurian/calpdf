@@ -13,6 +13,8 @@ When calpdf changes a PDF in place, it keeps a `.bak` backup of the original, so
 
 I made calpdf because I wanted a small CLI tool for these jobs, not another bloated PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
+There is also a [Calibre plugin](https://github.com/athaurian/calibre-calpdf) that puts the same jobs in a dialog, for when you would rather not leave the library.
+
 A typical session on one book looks like this:
 
 ```bash

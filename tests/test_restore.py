@@ -5,8 +5,24 @@ from pathlib import Path
 from typer.testing import CliRunner
 
 from calpdf.cli import app
+from calpdf.restore import restore_backup
 
 runner = CliRunner()
+
+
+class TestRestoreAPI:
+    def test_returns_the_restored_paths(self, tmp_path: Path):
+        pdf = tmp_path / "book.pdf"
+        bak = tmp_path / "book.pdf.bak"
+        pdf.write_bytes(b"modified")
+        bak.write_bytes(b"original")
+
+        out_file, backup_file = restore_backup(pdf)
+
+        assert out_file == pdf
+        assert backup_file == bak
+        assert pdf.read_bytes() == b"original"
+        assert not bak.exists()
 
 
 class TestRestoreCLI:

@@ -247,6 +247,90 @@ def count_toc_entries(entries: list[dict]) -> int:
 
 
 # ---------------------------------------------------------------------------
+# Library API. The CLI and other front ends call these. They never print.
+# ---------------------------------------------------------------------------
+
+
+class TocValidationError(AppError):
+    """A table of contents that failed validation, one message per problem."""
+
+    def __init__(self, errors: list[str]):
+        super().__init__("\n".join(errors))
+        self.errors = errors
+
+
+def read_toc(input_pdf: Path) -> list[dict[str, Any]]:
+    """Read the PDF outline as a list of ToC entries."""
+    validate_input_file(input_pdf, label="Input PDF")
+    with pikepdf.open(input_pdf) as pdf:
+        page_map = _build_page_map(pdf)
+        with pdf.open_outline() as outline:
+            return extract_outline(outline.root, pdf, page_map)
+
+
+def read_toc_file(toc_file: Path) -> Any:
+    """Parse a ToC JSON file. Entry validation is a separate step."""
+    validate_input_file(toc_file, label="ToC file")
+    try:
+        raw_text = toc_file.read_text(encoding="utf-8")
+    except Exception as exc:
+        raise AppError(f"Could not read '{toc_file}': {message(exc)}") from exc
+    try:
+        return json.loads(raw_text)
+    except json.JSONDecodeError as exc:
+        raise AppError(f"Invalid JSON in '{toc_file}': {exc}") from exc
+
+
+def write_toc(
+    input_pdf: Path,
+    entries: list[dict[str, Any]],
+    output_pdf: Optional[Path] = None,
+) -> int:
+    """Replace the PDF outline with *entries* and return the bookmark count."""
+    if output_pdf is None or same_path(input_pdf, output_pdf):
+        out_file, backup_file = normalize_paths(input_pdf)
+        in_place = True
+    else:
+        out_file = output_pdf
+        backup_file = None
+        in_place = False
+
+    validate_input_file(input_pdf, label="Input PDF")
+    validate_output_dir(out_file)
+
+    if in_place:
+        assert backup_file is not None  # guaranteed by normalize_paths
+        source = backup_file if backup_file.is_file() else out_file
+    else:
+        source = input_pdf
+
+    with pikepdf.open(source) as pdf:
+        total_pages = len(pdf.pages)
+        if total_pages == 0:
+            raise AppError("Input PDF has no pages.")
+        errors = validate_toc(entries, total_pages)
+        if errors:
+            raise TocValidationError(errors)
+
+    if in_place:
+        assert backup_file is not None
+        ensure_backup(out_file, backup_file)
+        source = backup_file
+
+    with tempfile.TemporaryDirectory(dir=str(out_file.parent)) as tmp:
+        temp_output = Path(tmp) / out_file.name
+        with pikepdf.open(source) as pdf:
+            with pdf.open_outline() as outline:
+                outline.root.clear()
+                for item in build_outline_items(pdf, entries):
+                    outline.root.append(item)
+            pdf.save(temp_output)
+        temp_output.replace(out_file)
+
+    return count_toc_entries(entries)
+
+
+# ---------------------------------------------------------------------------
 # CLI commands
 # ---------------------------------------------------------------------------
 
@@ -271,13 +355,7 @@ def export_toc(
 ) -> None:
     """Export the PDF's table of contents (bookmarks) to JSON or a tree view."""
     try:
-        validate_input_file(input_pdf, label="Input PDF")
-
-        with pikepdf.open(input_pdf) as pdf:
-            page_map = _build_page_map(pdf)
-
-            with pdf.open_outline() as outline:
-                toc = extract_outline(outline.root, pdf, page_map)
+        toc = read_toc(input_pdf)
 
         if fmt == TocFormat.tree:
             if output_file:
@@ -321,65 +399,26 @@ def apply_toc(
 
     The PDF's page labels (e.g. roman numerals for front matter) are not modified.
     """
-    if output_pdf is None or same_path(input_pdf, output_pdf):
-        out_file, backup_file = normalize_paths(input_pdf)
-        in_place = True
-    else:
-        out_file = output_pdf
-        backup_file = None
-        in_place = False
-
     try:
-        validate_input_file(input_pdf, label="Input PDF")
-        validate_input_file(toc_file, label="ToC file")
-        validate_output_dir(out_file)
+        entries = read_toc_file(toc_file)
+        count = write_toc(input_pdf, entries, output_pdf)
 
-        try:
-            raw_text = toc_file.read_text(encoding="utf-8")
-            data = json.loads(raw_text)
-        except json.JSONDecodeError as exc:
-            output.error(f"Invalid JSON in '{toc_file}': {exc}")
-            raise typer.Exit(1) from None
-        except Exception as exc:
-            output.error(f"Could not read '{toc_file}': {message(exc)}")
-            raise typer.Exit(1) from None
-
-        if in_place:
-            assert backup_file is not None  # guaranteed by normalize_paths above
-            ensure_backup(out_file, backup_file)
-            source = backup_file
+        if output_pdf is None or same_path(input_pdf, output_pdf):
+            out_file, backup_file = normalize_paths(input_pdf)
+            backup_note = f" (backup: '{backup_file}')"
         else:
-            source = input_pdf
+            out_file = output_pdf
+            backup_note = ""
 
-        with tempfile.TemporaryDirectory(dir=str(out_file.parent)) as tmp:
-            temp_output = Path(tmp) / out_file.name
-
-            with pikepdf.open(source) as pdf:
-                total_pages = len(pdf.pages)
-                if total_pages == 0:
-                    raise AppError("Input PDF has no pages.")
-
-                errors = validate_toc(data, total_pages)
-                if errors:
-                    for err in errors:
-                        output.error(err)
-                    raise typer.Exit(1)
-
-                with pdf.open_outline() as outline:
-                    outline.root.clear()
-                    for item in build_outline_items(pdf, data):
-                        outline.root.append(item)
-
-                pdf.save(temp_output)
-
-            temp_output.replace(out_file)
-
-        backup_note = f" (backup: '{backup_file}')" if backup_file else ""
         output.success(f"Success: Applied ToC to '{out_file}'{backup_note}.")
-        output.detail(f"{count_toc_entries(data)} bookmarks ({len(data)} top-level).")
+        output.detail(f"{count} bookmarks ({len(entries)} top-level).")
 
     except typer.Exit:
         raise
+    except TocValidationError as exc:
+        for err in exc.errors:
+            output.error(err)
+        raise typer.Exit(1) from None
     except AppError as exc:
         output.error(str(exc))
         raise typer.Exit(1) from None

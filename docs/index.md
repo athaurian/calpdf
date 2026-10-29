@@ -12,6 +12,8 @@ When calpdf changes a PDF in place, it keeps a `.bak` backup of the original, so
 
 I made calpdf because I wanted a small CLI tool for these jobs, not another bloated PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
+The same jobs are available in a [Calibre plugin](https://github.com/athaurian/calibre-calpdf), for when you would rather stay in the library.
+
 ---
 
 <div class="asciinema-demo" role="group" data-asciinema-cast="assets/casts/cover-and-restore.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of a cover replacement and restore session"></div>
