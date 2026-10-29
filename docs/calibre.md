@@ -12,8 +12,7 @@ for the same program.
 
 ## Direct integration
 
-Note that the plugin does not run the `calpdf` command and parse its output.
-It imports the package and calls the same functions the commands use. The
+Note that the plugin does not merely run the `calpdf` command and parse its output; it genuinely imports the package and calls the same functions the commands use. The
 backup rules, the ToC JSON format, and the way calpdf runs `qpdf` all come from
 calpdf itself.
 
