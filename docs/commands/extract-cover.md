@@ -29,4 +29,4 @@ To set the extracted image as the book's cover in Calibre:
 
 1. Open the book.
 2. Choose **Edit metadata**.
-3. Drag `book_cover.jpg` or `book_cover.png` onto the cover on the right.
+3. Drag the extracted file (for `book.pdf`, that is `book_cover.jpg` or `book_cover.png`) onto the cover on the right.

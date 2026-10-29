@@ -1,6 +1,6 @@
 # Backup behavior
 
-Commands that modify a PDF in place ([`replace-cover`](../commands/replace-cover.md), [`set-cover`](../commands/set-cover.md), [`apply-toc`](../commands/apply-toc.md), and [`optimize`](../commands/optimize.md)) keep a backup of the original file with a `.bak` suffix. To restore the original, run [`restore`](../commands/restore.md):
+Commands that modify a PDF in place ([`replace-cover`](../commands/replace-cover.md), [`set-cover`](../commands/set-cover.md), [`apply-toc`](../commands/apply-toc.md), and [`optimize`](../commands/optimize.md)) keep a backup of the original file with a `.bak` suffix. A command that writes to a different file with `--output` leaves the input untouched, so it keeps no backup. To restore the original, run [`restore`](../commands/restore.md):
 
 ```bash
 calpdf restore book.pdf
