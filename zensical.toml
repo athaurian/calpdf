@@ -26,6 +26,7 @@ extra_javascript = [
 nav = [
   { "Home" = "index.md" },
   { "Installation" = "installation.md" },
+  { "Calibre plugin" = "calibre.md" },
   { "Global options" = "global-options.md" },
   { "Commands" = [
       { "replace-cover" = "commands/replace-cover.md" },
