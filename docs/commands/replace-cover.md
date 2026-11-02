@@ -23,7 +23,7 @@ By default, the command updates the PDF in place and keeps a backup of the origi
 | Option           | Effect                                                                     |
 | ---------------- | -------------------------------------------------------------------------- |
 | `--output`, `-o` | Writes the result to a new file.                                           |
-| `--mode`         | Selects `replace` (the default) or `insert`; `insert` keeps all pages.     |
+| `--mode`         | Selects `replace` (the default) or `insert`, which keeps all pages.        |
 | `--pages`        | Controls how many pages the image replaces (only used in replace mode).    |
 | `--dpi`          | Sets the resolution of the cover image (the default is 300 dots per inch). |
 

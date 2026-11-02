@@ -12,9 +12,8 @@ for the same program.
 
 ## Direct integration
 
-Note that the plugin does not merely run the `calpdf` command and parse its output; it genuinely imports the package and calls the same functions the commands use. The
-backup rules, the ToC JSON format, and the way calpdf runs `qpdf` all come from
-calpdf itself.
+The plugin imports calpdf rather than running the command, so the backup rules,
+the ToC format, and the way `qpdf` runs all match the CLI.
 
 Calibre imports calpdf from the Python installation it runs on, so installing
 calpdf using `uv tool install` will not help. On Arch, you can install
@@ -58,7 +57,8 @@ If you close the dialog without applying anything, the PDF is untouched.
 
 The plugin lives at
 [athaurian/calibre-calpdf](https://github.com/athaurian/calibre-calpdf). The
-README has the full build and install steps; in short:
+README has the full build and install steps. To build and install from a
+checkout, run:
 
 ```bash
 git clone https://github.com/athaurian/calibre-calpdf.git

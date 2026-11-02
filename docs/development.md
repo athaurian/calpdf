@@ -17,7 +17,7 @@ Install the project and its development tools:
 uv sync --dev
 ```
 
-This creates a virtual environment in `.venv` and installs calpdf, pytest, Ruff, mypy, and Zensical. The `--dev` flag includes the development dependency group from `pyproject.toml`.
+This installs calpdf and the development tools in `.venv`.
 
 ## Run the checkout
 
@@ -28,16 +28,16 @@ uv run calpdf --version
 uv run calpdf info book.pdf
 ```
 
-The `uv run python -m calpdf` command reaches the same entry point. To try `optimize`, install `qpdf` first, as described in [External dependencies](installation.md#external-dependencies).
+To try `optimize`, install `qpdf` first, as described in [External dependencies](installation.md#external-dependencies).
 
 ## Project layout
 
-| Path          | Contents                                                                    |
-| ------------- | --------------------------------------------------------------------------- |
-| `src/calpdf/` | Package and command modules; `cli.py` registers the commands                |
-| `tests/`      | Pytest suite and fixtures that build sample PDFs and images                 |
-| `docs/`       | Markdown source for this site; `zensical.toml` defines navigation and theme |
-| `Makefile`    | Wraps the common checks                                                     |
+| Path          | Contents                                         |
+| ------------- | ------------------------------------------------ |
+| `src/calpdf/` | Package and command modules                      |
+| `tests/`      | Pytest suite and fixtures that build sample PDFs |
+| `docs/`       | Markdown source for this site                    |
+| `Makefile`    | Wraps the common checks                          |
 
 ## Test and lint
 
@@ -69,11 +69,12 @@ make docs-serve
 
 Zensical prints the preview address when it starts, and the preview reloads when a file changes. To build it once instead, run `make docs`.
 
-The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. The files `docs/stylesheets/extra.css`, `overrides/home.html`, `overrides/main.html`, and `docs/javascripts/theme-transition.js` are copies of its files. Make theme changes in docs-theme and run its `make sync`, rather than editing the copies in this repository. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
+The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. The copies here are generated, so make theme changes there and run its `make sync`. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
 
-The screenshots on the [Calibre plugin](calibre.md) page come from the plugin repository. Regenerate them with `make ui` in `calibre-calpdf`; do not commit screenshot files to this repository.
+The screenshots on the [Calibre plugin](calibre.md) page come from the plugin repository. Regenerate them with `make ui` in `calibre-calpdf`, and do not commit screenshot files to this repository.
 
-To publish a change, merge it to `main`. The docs workflow builds the site for every pull request and every push to `main`. Only a push to `main` deploys the site to GitHub Pages.
+To publish a change, merge it to `main`. Only a push to `main` deploys the
+site.
 
 ## Continuous integration
 

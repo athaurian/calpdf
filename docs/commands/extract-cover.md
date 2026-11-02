@@ -15,7 +15,7 @@ calpdf extract-cover book.pdf --page 2 --raw -o cover.png
 
 Without `--output`, calpdf saves the image in the current directory as `BOOK_STEM_cover.jpg` or `BOOK_STEM_cover.png`, where `BOOK_STEM` is the PDF file name without its extension. The extension follows the image encoding. The command picks the largest image on the selected page, so it skips small icons and returns the image that most likely is the cover.
 
-To write the original bytes without re-encoding, use `--raw`. With `--raw`, calpdf does not transcode the image, so the output extension must match the embedded image format; otherwise the file holds bytes that do not match its name.
+To write the original bytes without re-encoding, use `--raw`. With `--raw`, calpdf does not transcode the image, so the output extension must match the embedded image format. Otherwise the file holds bytes that do not match its name.
 
 ## Reusing the cover in Calibre
 

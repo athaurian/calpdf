@@ -1,6 +1,6 @@
 # The `optimize` command
 
-The `optimize` command makes a PDF smaller, hopefully. It uses `qpdf` to linearize the file so a viewer can load it faster, to compress objects and images, and to remove metadata such as the title and author.
+The `optimize` command makes a PDF smaller, hopefully. It uses `qpdf` to compress the file and remove metadata such as the title and author.
 
 The result depends on what is inside the file:
 
@@ -29,6 +29,6 @@ By default, the command updates the PDF in place and keeps a backup. The options
 
 For more information about backups, see [Backup behavior](../reference/backup-behavior.md).
 
-If `qpdf` fails, calpdf stops and reports an error; use `--force` to continue anyway. If `qpdf` reports warnings, calpdf prints a warning and continues.
+If `qpdf` fails, calpdf stops and reports an error. Use `--force` to continue anyway. If `qpdf` reports warnings, calpdf prints a warning and continues.
 
 The `optimize` command requires `qpdf`. For more information, see [External dependencies](../installation.md#external-dependencies).
