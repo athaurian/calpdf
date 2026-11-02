@@ -17,7 +17,6 @@ def _make_pdf_with_image(pdf_path: Path, image_path: Path) -> None:
     cover_pdf = build_cover_pdf(
         image_path, geom, pdf_path.parent, dpi=150, fit_mode="match-width"
     )
-    # Use the cover PDF as the test file
     with pikepdf.open(cover_pdf) as pdf:
         pdf.save(pdf_path)
 

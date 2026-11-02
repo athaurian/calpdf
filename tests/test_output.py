@@ -1,4 +1,4 @@
-"""Tests for calpdf.output."""
+"""Output helper behavior."""
 
 from calpdf import output
 

@@ -1,8 +1,4 @@
-"""Centralized user-facing output.
-
-Every command should use these helpers instead of calling ``typer.echo``
-directly.  This keeps styling, verbosity, and color control in one place.
-"""
+"""Centralized user-facing output helpers."""
 
 from __future__ import annotations
 
@@ -54,30 +50,30 @@ def configure(*, quiet: bool = False, no_color: bool = False) -> None:
 
 
 def info(text: str) -> None:
-    """Neutral informational message (suppressed by --quiet)."""
+    """Print a neutral informational message (suppressed by --quiet)."""
     if not _quiet:
         _out.print(text, style="info")
 
 
 def detail(text: str) -> None:
-    """Secondary/progress detail (suppressed by --quiet)."""
+    """Print secondary or progress detail (suppressed by --quiet)."""
     if not _quiet:
         _out.print(text, style="detail")
 
 
 def success(text: str) -> None:
-    """Success message (suppressed by --quiet)."""
+    """Print a success message (suppressed by --quiet)."""
     if not _quiet:
         _out.print(text, style="success")
 
 
 def warning(text: str) -> None:
-    """Warning: always shown, goes to stderr."""
+    """Print a warning to stderr; warnings are always shown."""
     _err.print(f"Warning: {text}", style="warning")
 
 
 def error(text: str) -> None:
-    """Error: always shown, goes to stderr."""
+    """Print an error to stderr; errors are always shown."""
     _err.print(f"Error: {text}", style="error")
 
 
@@ -100,7 +96,7 @@ def format_size(num_bytes: int) -> str:
 
 
 def format_size_change(before: int, after: int) -> str:
-    """Describe the change from *before* to *after* bytes, as a sentence."""
+    """Describe the change from *before* to *after* bytes as a sentence."""
     if before == after:
         return f"{format_size(before)}, unchanged."
 
@@ -124,7 +120,7 @@ def format_size_change(before: int, after: int) -> str:
 
 
 def raw(text: str) -> None:
-    """Raw unformatted output to stdout (never suppressed, never styled).
+    """Write raw unformatted output to stdout (never suppressed, never styled).
 
     Use for machine-readable data like JSON that may be piped.
     """

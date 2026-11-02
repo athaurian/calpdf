@@ -229,7 +229,7 @@ class TestOptimizeCLI:
         strip_color_profiles(src, dst)
         with pikepdf.open(dst) as out:
             assert "/OutputIntents" not in out.Root
-        # surgical: only 1 object removed (the intent), Producer preserved
+        # Only the intent object is removed; Producer is preserved.
         with pikepdf.open(src) as a, pikepdf.open(dst) as b:
             assert len(list(b.objects)) == len(list(a.objects)) - 1
 

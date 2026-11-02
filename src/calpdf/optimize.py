@@ -58,16 +58,15 @@ def qpdf_optimize(
 def strip_color_profiles(input_path: Path, output_path: Path) -> None:
     """Strip ICC color profiles without re-distilling the PDF.
 
-    Unlike ``gs -sDEVICE=pdfwrite`` (which re-interprets the entire file
-    through Ghostscript, rewriting fonts, content streams, and the catalog),
-    this surgically removes:
+    Unlike ``gs -sDEVICE=pdfwrite``, which re-interprets the entire file
+    through Ghostscript and rewrites fonts, content streams, and the catalog,
+    this removes only:
 
     * document-level ``/OutputIntents`` (where publisher ICC profiles live)
     * image-level ``/ICCBased`` color spaces (replaced by ``/DeviceRGB``)
 
-    This preserves object counts, ``Producer``, ``StructTreeRoot``, and other
-    objects. Empirically, ``gs`` drops 97% of objects on ``small2.pdf``, and
-    this drops 1.
+    Object counts, ``Producer``, ``StructTreeRoot``, and other objects are
+    preserved.
     """
     import pikepdf
 
@@ -112,8 +111,8 @@ def strip_color_profiles(input_path: Path, output_path: Path) -> None:
                     ):
                         obj["/ColorSpace"] = alternate
                     else:
-                        # Most ICC profiles in samples are RGB, so DeviceRGB is safe.
-                        # We don't re-encode pixel data. We drop only the profile.
+                        # Without a usable /Alternate, assume RGB. Do not
+                        # re-encode pixel data; only the profile is dropped.
                         obj["/ColorSpace"] = pikepdf.Name("/DeviceRGB")
             except Exception:
                 continue

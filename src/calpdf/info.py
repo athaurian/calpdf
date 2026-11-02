@@ -1,4 +1,4 @@
-"""Inspect a PDF and report its properties."""
+"""PDF property inspection and reporting."""
 
 from __future__ import annotations
 

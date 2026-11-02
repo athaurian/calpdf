@@ -1,4 +1,4 @@
-"""Tests that verify consistent behavior across all commands."""
+"""Cross-command consistency checks."""
 
 import json
 import shutil

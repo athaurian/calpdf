@@ -1,4 +1,4 @@
-"""Restore a PDF from the backup that in-place commands keep."""
+"""Restoration of PDFs from in-place backups."""
 
 import shutil
 from pathlib import Path

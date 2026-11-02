@@ -201,7 +201,6 @@ class TestApplyTocCLI:
             line.lower().startswith("success:") for line in result.stdout.splitlines()
         )
 
-        # Verify the ToC was applied
         with pikepdf.open(sample_pdf) as pdf:
             page_map = {page.obj.objgen: i for i, page in enumerate(pdf.pages)}
             with pdf.open_outline() as outline:
@@ -261,12 +260,10 @@ class TestApplyTocCLI:
 
     def test_full_roundtrip(self, sample_pdf_with_toc: Path, tmp_path: Path):
         """Export ToC, apply it to a fresh PDF, re-export, and compare."""
-        # Export original
         result = runner.invoke(app, ["export-toc", str(sample_pdf_with_toc)])
         assert result.exit_code == 0
         original_toc = json.loads(result.stdout)
 
-        # Create a fresh PDF with same page count
         fresh = tmp_path / "fresh.pdf"
         with pikepdf.open(sample_pdf_with_toc) as pdf:
             fresh_pdf = pikepdf.Pdf.new()
@@ -275,13 +272,11 @@ class TestApplyTocCLI:
             fresh_pdf.save(fresh)
             fresh_pdf.close()
 
-        # Apply original ToC
         toc_file = tmp_path / "toc.json"
         toc_file.write_text(json.dumps(original_toc))
         result = runner.invoke(app, ["apply-toc", str(fresh), str(toc_file)])
         assert result.exit_code == 0
 
-        # Re-export and compare
         result = runner.invoke(app, ["export-toc", str(fresh)])
         assert result.exit_code == 0
         roundtrip_toc = json.loads(result.stdout)

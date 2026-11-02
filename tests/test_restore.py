@@ -1,4 +1,4 @@
-"""Tests for the restore command."""
+"""Restore command behavior."""
 
 from pathlib import Path
 

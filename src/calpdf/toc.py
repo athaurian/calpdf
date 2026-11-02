@@ -252,7 +252,7 @@ def count_toc_entries(entries: list[dict]) -> int:
 
 
 class TocValidationError(AppError):
-    """A table of contents that failed validation, one message per problem."""
+    """Raised when a ToC fails validation, with one message per problem."""
 
     def __init__(self, errors: list[str]):
         super().__init__("\n".join(errors))

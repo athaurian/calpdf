@@ -1,4 +1,4 @@
-"""Extract a cover image from a PDF."""
+"""Cover image extraction from PDF pages."""
 
 from __future__ import annotations
 
@@ -17,9 +17,9 @@ from calpdf.common import AppError, message, validate_input_file, validate_outpu
 def _select_largest_image(page: Any) -> tuple[str, Any]:
     """Return the name and object of the largest image on *page*.
 
-    The largest image is the one with the greatest pixel area. You need a
-    single cover image, so choosing the largest image avoids small icons or
-    inline graphics and returns the image that most likely is the cover.
+    The largest image is the one with the greatest pixel area. Choosing it
+    avoids small icons or inline graphics and returns the image most likely
+    to be the cover.
     """
     images = page.get_images() if hasattr(page, "get_images") else page.images
     if not images:

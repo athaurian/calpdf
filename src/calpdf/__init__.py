@@ -1,1 +1,1 @@
-"""calpdf - a simple PDF toolkit."""
+"""Simple PDF toolkit."""

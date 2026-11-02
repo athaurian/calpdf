@@ -6,7 +6,7 @@ from calpdf import output
 
 
 class AppError(Exception):
-    pass
+    """Raised when a user-facing operation fails."""
 
 
 def message(exc: BaseException) -> str:

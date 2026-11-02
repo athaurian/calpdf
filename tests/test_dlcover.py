@@ -1,4 +1,4 @@
-"""Tests for calpdf.dlcover."""
+"""Cover download and book identifier validation."""
 
 from pathlib import Path
 from unittest.mock import MagicMock, patch

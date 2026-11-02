@@ -1,10 +1,4 @@
-"""PDF structure pruning.
-
-When pages are removed from a PDF, any outline entries, internal links,
-named destinations, or open actions that point at the removed pages would
-dangle.  This module collects and removes those targets so page deletion
-leaves a structurally clean document.
-"""
+"""PDF structure pruning after page removal."""
 
 from dataclasses import dataclass
 from typing import Optional
@@ -230,8 +224,8 @@ def prune_open_action(pdf: pikepdf.Pdf, removed: RemovedTargets) -> None:
 
 
 def remove_targets_that_would_dangle(pdf: pikepdf.Pdf, pages_to_remove: int) -> None:
-    """Remove outlines, named destinations, internal links, and the open
-    action that would point to removed pages."""
+    """Remove outlines, named destinations, internal links, and open actions
+    that point to removed pages."""
     removed_pages = {pdf.pages[i].obj.objgen for i in range(pages_to_remove)}
     removed_names = collect_removed_named_destinations(pdf, removed_pages)
     removed = RemovedTargets(removed_pages, removed_names)

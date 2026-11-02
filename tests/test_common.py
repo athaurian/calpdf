@@ -95,7 +95,7 @@ class TestValidateInputFile:
     def test_exists(self, tmp_path: Path):
         f = tmp_path / "yes.pdf"
         f.write_text("ok")
-        validate_input_file(f)  # should not raise
+        validate_input_file(f)
 
 
 class TestValidateOutputDir:
@@ -110,7 +110,7 @@ class TestValidateOutputDir:
             validate_output_dir(d)
 
     def test_valid(self, tmp_path: Path):
-        validate_output_dir(tmp_path / "out.pdf")  # should not raise
+        validate_output_dir(tmp_path / "out.pdf")
 
 
 class TestDetectSwap:
