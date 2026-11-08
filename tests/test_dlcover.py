@@ -71,6 +71,18 @@ class TestDownloadCover:
         assert target.read_bytes() == tiny_jpeg_bytes
         assert mock_get.call_count == 1
 
+    def test_detected_extension_renames_output(self, tmp_path: Path):
+        png = b"\x89PNG\r\n\x1a\n" + b"x" * 1024
+        target = tmp_path / "cover.jpg"
+        with patch(
+            "calpdf.dlcover.requests.get",
+            return_value=_response(200, png),
+        ):
+            result = download_cover("B08X92NRKV", target, use_detected_extension=True)
+        assert result == tmp_path / "cover.png"
+        assert result.read_bytes() == png
+        assert not target.exists()
+
     def test_falls_back_after_404(self, tmp_path: Path, tiny_jpeg_bytes: bytes):
         target = tmp_path / "cover.jpg"
         with patch(
@@ -156,6 +168,32 @@ class TestBookIdValidation:
                 ["dl-cover", "978-0-14-032872-1", "-o", str(tmp_path / "c.jpg")],
             )
         assert result.exit_code == 0, result.output
+
+    def test_dl_cover_default_name_uses_detected_extension(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ):
+        png = b"\x89PNG\r\n\x1a\n" + b"x" * 1024
+        monkeypatch.chdir(tmp_path)
+        with patch(
+            "calpdf.dlcover.requests.get",
+            return_value=_response(200, png),
+        ):
+            result = runner.invoke(app, ["dl-cover", "B08X92NRKV"])
+        assert result.exit_code == 0, result.output
+        assert (tmp_path / "B08X92NRKV_cover.png").read_bytes() == png
+        assert not (tmp_path / "B08X92NRKV_cover.jpg").exists()
+
+    def test_dl_cover_explicit_output_keeps_extension(self, tmp_path: Path):
+        png = b"\x89PNG\r\n\x1a\n" + b"x" * 1024
+        target = tmp_path / "cover.jpg"
+        with patch(
+            "calpdf.dlcover.requests.get",
+            return_value=_response(200, png),
+        ):
+            result = runner.invoke(app, ["dl-cover", "B08X92NRKV", "-o", str(target)])
+        assert result.exit_code == 0, result.output
+        assert target.read_bytes() == png
+        assert not (tmp_path / "cover.png").exists()
 
     def test_set_cover_rejects_invalid_id(self, sample_pdf: Path):
         with patch("calpdf.dlcover.requests.get") as mock_get:

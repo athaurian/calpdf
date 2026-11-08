@@ -50,11 +50,14 @@ def _detected_format(data: bytes) -> Optional[str]:
     return None
 
 
-def download_cover(book_id: str, output_path: Path) -> Path:
+def download_cover(
+    book_id: str, output_path: Path, use_detected_extension: bool = False
+) -> Path:
     """Download a cover image for *book_id*, trying each source in order.
 
     Returns the output path on success.  Raises :class:`AppError` if no source
-    yields a valid cover.
+    yields a valid cover.  When *use_detected_extension* is true, the suffix is
+    set from the detected image format.
     """
     for label, url_template in URL_CHAIN:
         url = url_template.format(id=book_id)
@@ -88,8 +91,13 @@ def download_cover(book_id: str, output_path: Path) -> Path:
             )
             continue
 
-        output_path.write_bytes(content)
         fmt = _detected_format(content) or "unknown"
+        if use_detected_extension:
+            if fmt == "JPEG":
+                output_path = output_path.with_suffix(".jpg")
+            elif fmt == "PNG":
+                output_path = output_path.with_suffix(".png")
+        output_path.write_bytes(content)
         output.success(f"Downloaded {fmt} cover ({content_length:,} bytes).")
         output.detail(f"Saved as: {output_path}")
         return output_path
@@ -106,7 +114,7 @@ def main(
         None,
         "--output",
         "-o",
-        help="Output file path (default: <BOOK_ID>_cover.jpg)",
+        help="Output file path (default: <BOOK_ID>_cover.jpg or .png)",
     ),
 ) -> None:
     """Download a cover image for a book by ASIN, ISBN, or Open Library ID."""
@@ -114,7 +122,11 @@ def main(
         validate_book_id(book_id)
         target = output_file or Path(f"{book_id}_cover.jpg")
         validate_output_dir(target)
-        download_cover(book_id, target)
+        download_cover(
+            book_id,
+            target,
+            use_detected_extension=output_file is None,
+        )
     except typer.Exit:
         raise
     except AppError as exc:

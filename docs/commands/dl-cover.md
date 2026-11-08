@@ -13,7 +13,7 @@ calpdf dl-cover 9780387967875 -o mycover.jpg
 calpdf dl-cover OL123W
 ```
 
-Without `--output`, calpdf saves the image in the current directory as `BOOK_ID_cover.jpg`, where `BOOK_ID` is the identifier you passed. The identifier can only contain ASCII letters, digits, and dashes.
+Without `--output`, calpdf saves the image in the current directory as `BOOK_ID_cover.jpg` or `BOOK_ID_cover.png`, choosing the extension from the detected image format. `BOOK_ID` is the identifier you passed. The identifier can only contain ASCII letters, digits, and dashes. `--output` writes the downloaded bytes unchanged to the path you give, so it does not convert the image or change the extension.
 
 calpdf tries Amazon first, then Open Library by ISBN and by OLID. It uses the first response that returns HTTP 200, is at least 1 KB, and starts with a JPEG or PNG signature.
 
