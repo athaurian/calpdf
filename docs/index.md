@@ -4,7 +4,10 @@ template: home.html
 
 # calpdf
 
-Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd rather read the source code, it's on [GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but it is also a standalone tool that does not require Calibre.
+Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd
+rather read the source code, it's on
+[GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but
+it is also a standalone tool that does not require Calibre.
 
 calpdf handles common PDF tasks, including the following:
 
@@ -13,11 +16,14 @@ calpdf handles common PDF tasks, including the following:
 - Editing its table of contents
 - Fetching covers from several sources
 
-When calpdf changes a PDF in place, it keeps one `.bak` copy of the original before the first change, and `calpdf restore` puts it back.
+When calpdf changes a PDF in place, it keeps one `.bak` copy of the original
+before the first change, and `calpdf restore` puts it back.
 
-I made calpdf because I wanted a small CLI tool for these tasks instead of a full PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
+I made calpdf because I wanted a small CLI tool for these tasks instead of a
+full PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
-You can use calpdf inside Calibre through the [Calibre plugin](calibre.md), which provides a graphical interface.
+You can use calpdf inside Calibre through the [Calibre plugin](calibre.md),
+which provides a graphical interface.
 
 ---
 
@@ -26,7 +32,8 @@ You can use calpdf inside Calibre through the [Calibre plugin](calibre.md), whic
 
 ---
 
-calpdf is for people who are comfortable using a terminal. Start with [Installation](installation.md).
+calpdf is for people who are comfortable using a terminal. Start with
+[Installation](installation.md).
 
 ## Example session
 

@@ -7,23 +7,24 @@ for the same program.
 
 <figure class="screenshot">
   <img src="https://raw.githubusercontent.com/athaurian/calibre-calpdf/main/docs/screenshots/contents.png" alt="The CalPDF dialog on the Contents tab, showing a book's bookmarks as a tree.">
-  <figcaption>The Contents tab works on the selected book's outline, the PDF structure that stores bookmarks. The first time calpdf modifies a PDF, it saves the original as a separate backup file with a .bak suffix.</figcaption>
+  <figcaption>The Contents tab works on the selected book's outline, the PDF structure that stores bookmarks.</figcaption>
 </figure>
 
 ## Direct integration
 
-The plugin imports calpdf as a Python package rather than running the `calpdf` command, so the backup rules, the ToC format, and the way `qpdf` runs all match the CLI.
+The plugin uses calpdf directly, so the backup rules, the ToC format, and the way
+`qpdf` runs all match the CLI.
 
 Calibre imports calpdf from the Python installation it runs on, so installing
 calpdf using `uv tool install` does not help. On Arch, you can install
-`calpdf-git` from my
-[Forge repository](https://github.com/athaurian/forge), and it goes into the
-system Python that Calibre uses. Elsewhere, install calpdf into the same Python
-installation. When the dialog opens, the plugin checks the calpdf version and
-reports a mismatch instead of leaving you with a broken dialog.
+`calpdf-git` from my [Forge repository](https://github.com/athaurian/forge), and
+it goes into the system Python that Calibre uses. Elsewhere, install calpdf into
+the same Python installation. When the dialog opens, the plugin checks the
+calpdf version and reports a mismatch instead of leaving you with a broken
+dialog.
 
-The plugin needs calpdf 0.2 or newer, Calibre 6 or newer, and `qpdf` on
-`PATH` for the Optimize tab.
+The plugin needs calpdf 0.2 or newer, Calibre 6 or newer, and `qpdf` on `PATH`
+for the Optimize tab.
 
 ## Tabs
 
@@ -47,10 +48,10 @@ The plugin needs calpdf 0.2 or newer, Calibre 6 or newer, and `qpdf` on
 
 ## Backup behavior
 
-When you change anything for the first time, calpdf saves a `.bak` copy next to
-the PDF. The plugin does not keep a version history. The Backup tab puts that
-copy back and deletes it, the same way [`restore`](commands/restore.md) does.
-If you close the dialog without applying anything, the PDF is untouched.
+The plugin does not keep a version history. It uses the same `.bak` backup as
+the CLI. The Backup tab puts that copy back and deletes it, the same way
+[`restore`](commands/restore.md) does. If you close the dialog without applying
+anything, the PDF is untouched.
 
 ## Install
 
@@ -69,5 +70,5 @@ calibre-customize -a dist/calpdf.zip
 Restart Calibre, then add the **CalPDF** button from **Preferences > Interface >
 Toolbars & menus**.
 
-I use CalPDF on Linux. On Windows and macOS, Calibre bundles its own Python,
-and I have not covered how to install calpdf into it yet.
+I use CalPDF on Linux. On Windows and macOS, Calibre bundles its own Python, and
+I have not covered how to install calpdf into it yet.

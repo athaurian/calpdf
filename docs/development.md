@@ -1,6 +1,8 @@
 # Development
 
-calpdf needs Python 3.11 or later, [uv](https://docs.astral.sh/uv/), and Git. The common checks also need `make` and Node.js, because the Makefile runs Prettier through `npx`.
+calpdf needs Python 3.11 or later, [uv](https://docs.astral.sh/uv/), and Git.
+The common checks also need `make` and Node.js, because the Makefile runs
+Prettier through `npx`.
 
 ## Set up the checkout
 
@@ -28,7 +30,8 @@ uv run calpdf --version
 uv run calpdf info book.pdf
 ```
 
-To try `optimize`, install `qpdf` first, as described in [External dependencies](installation.md#external-dependencies).
+To try `optimize`, install `qpdf` first, as described in
+[External dependencies](installation.md#external-dependencies).
 
 ## Project layout
 
@@ -41,7 +44,9 @@ To try `optimize`, install `qpdf` first, as described in [External dependencies]
 
 ## Test and lint
 
-Run the narrowest check while you work, then run `make check` before you open a pull request. It runs the lint checks, builds the documentation, and runs the test suite.
+Run the narrowest check while you work, then run `make check` before you open a
+pull request. It runs the lint checks, builds the documentation, and runs the
+test suite.
 
 | Command       | Action                                                                          |
 | ------------- | ------------------------------------------------------------------------------- |
@@ -57,34 +62,44 @@ To run one test file, give it to pytest directly:
 uv run pytest tests/test_toc.py
 ```
 
-You can add `::TestValidateToc` or a test name to run a smaller part of the file.
+You can add `::TestValidateToc` or a test name to run a smaller part of the
+file.
 
 ## Documentation
 
-The site is built with [Zensical](https://zensical.org/). Preview it while you edit:
+The site is built with [Zensical](https://zensical.org/). Preview it while you
+edit:
 
 ```bash
 make docs-serve
 ```
 
-Zensical prints the preview address when it starts, and the preview reloads when a file changes. To build it once instead, run `make docs`.
+Zensical prints the preview address when it starts, and the preview reloads when
+a file changes. To build it once instead, run `make docs`.
 
-The shared theme comes from the [docs-theme](https://github.com/athaurian/docs-theme) repository. The copies here are generated, so make theme changes there and run its `make sync`. Styles that belong only to this site go in `docs/stylesheets/calpdf.css`.
+The shared theme comes from the
+[docs-theme](https://github.com/athaurian/docs-theme) repository. The copies
+here are generated, so make theme changes there and run its `make sync`. Styles
+that belong only to this site go in `docs/stylesheets/calpdf.css`.
 
-The screenshots on the [Calibre plugin](calibre.md) page come from the plugin repository. Regenerate them with `make ui` in `calibre-calpdf`, and do not commit screenshot files to this repository.
+The screenshots on the [Calibre plugin](calibre.md) page come from the plugin
+repository. Regenerate them with `make ui` in `calibre-calpdf`, and do not
+commit screenshot files to this repository.
 
-To publish a change, merge it to `main`. Only a push to `main` deploys the
-site.
+To publish a change, merge it to `main`. Only a push to `main` deploys the site.
 
 ## Continuous integration
 
-The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pull requests.
+The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on
+pull requests.
 
 | Job  | Runs                                            |
 | ---- | ----------------------------------------------- |
 | lint | `ruff check`, `ruff format --check`, and `mypy` |
 | test | pytest on Python 3.11, 3.12, and 3.13           |
 
-A separate `docs` workflow in `.github/workflows/docs.yml` builds the site in strict mode on the same triggers and deploys it on pushes to `main`.
+A separate `docs` workflow in `.github/workflows/docs.yml` builds the site in
+strict mode on the same triggers and deploys it on pushes to `main`.
 
-Dependencies are pinned in `uv.lock`. After you change `pyproject.toml`, run `uv lock` and commit the updated lockfile.
+Dependencies are pinned in `uv.lock`. After you change `pyproject.toml`, run
+`uv lock` and commit the updated lockfile.
