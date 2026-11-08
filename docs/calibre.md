@@ -1,7 +1,7 @@
 # Calibre plugin
 
-calpdf is mainly a command-line tool. I still work from a terminal most of
-the time, but switching out of the library just to change a cover is tedious.
+calpdf is mainly a command-line tool. I work from a terminal most of the time,
+but switching out of the library to change a cover is tedious.
 [CalPDF](https://github.com/athaurian/calibre-calpdf) is a graphical interface
 for the same program.
 

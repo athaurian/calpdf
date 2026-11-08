@@ -1,14 +1,14 @@
 # The `optimize` command
 
-The `optimize` command makes a PDF smaller, hopefully. It uses `qpdf` to compress the file and remove metadata such as the title and author. The command always passes `--remove-structure` to `qpdf`, so it also removes the document structure tree, which holds the accessibility tags. `--keep-metadata` does not preserve the structure tree.
+The `optimize` command uses `qpdf` to compress a PDF. By default, it also removes metadata such as the title and author. The command always passes `--remove-structure` to `qpdf`, so it also removes the document structure tree, which holds the accessibility tags. `--keep-metadata` does not preserve the structure tree.
 
 The result depends on what is inside the file:
 
-- Scanned books and comics often shrink a lot.
-- Files that the publisher already compressed may not shrink at all.
-- Already tight files can grow slightly because `qpdf` adds linearization data.
+- Scanned books and comics often shrink by a large percentage.
+- Files that the publisher already compressed may not shrink.
+- Files that are already optimized can grow slightly because `qpdf` adds linearization data.
 
-When the command finishes, it reports how the size changed, as in `Size: 2.5 MB to 425.7 KB, 84% smaller.` If the size is the same, the report says `unchanged`.
+When the command finishes, it reports how the size changed, as in `Size: 2.5 MB to 425.7 KB, 84% smaller.` If the size does not change, the report ends with `unchanged`.
 
 The following examples show common ways to use it:
 

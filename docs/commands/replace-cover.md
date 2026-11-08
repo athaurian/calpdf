@@ -2,7 +2,7 @@
 
 The `replace-cover` command replaces the first page of a PDF with a cover image, or inserts the image as a new first page. The image must be a PNG or JPEG file.
 
-The following examples show the most common ways to use it:
+The following examples show common ways to use it:
 
 ```bash
 # Replace the first page with a new cover image

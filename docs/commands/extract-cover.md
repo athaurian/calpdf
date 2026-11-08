@@ -6,7 +6,7 @@ The `extract-cover` command extracts the largest image from a PDF page and saves
 # Save the largest image from the first page
 calpdf extract-cover book.pdf
 
-# Save the cover to a specific file and format
+# Save the image to a specific file and format
 calpdf extract-cover book.pdf -o cover.jpg
 
 # Write the original bytes from the second page with the default name
@@ -29,4 +29,4 @@ To set the extracted image as the book's cover in Calibre:
 
 1. Open the book.
 2. Choose **Edit metadata**.
-3. Drag the extracted file (for `book.pdf`, that is `book_cover.jpg` or `book_cover.png`) onto the cover on the right.
+3. Drag the extracted file (for `book.pdf`, that is `book_cover.jpg` or `book_cover.png`) onto the cover in the **Edit metadata** dialog.

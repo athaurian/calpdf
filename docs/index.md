@@ -4,25 +4,25 @@ template: home.html
 
 # calpdf
 
-Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd rather read the source code, it's on [GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but it really is just a standalone tool I made for myself.
+Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd rather read the source code, it's on [GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but it is also a standalone tool that does not require Calibre.
 
-calpdf handles the small tasks that usually come up when dealing with PDFs, such as:
+calpdf handles common PDF tasks, including the following:
 
 - Replacing a PDF's cover
-- Reducing its file size when possible
+- Compressing a PDF when possible
 - Editing its table of contents
-- Fetching covers from various sources, as a bonus
+- Fetching covers from several sources
 
 When calpdf changes a PDF in place, it keeps one `.bak` copy of the original before the first change, and `calpdf restore` puts it back.
 
-I made calpdf because I wanted a small CLI tool for these tasks, not another bloated PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
+I made calpdf because I wanted a small CLI tool for these tasks instead of a full PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
-You can use calpdf inside Calibre through the [Calibre plugin](calibre.md), which gives you a friendlier interface.
+You can use calpdf inside Calibre through the [Calibre plugin](calibre.md), which provides a graphical interface.
 
 ---
 
 <div class="asciinema-demo" role="group" data-asciinema-cast="assets/casts/cover-and-restore.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of a cover replacement and restore session"></div>
-<p class="asciinema-caption">The sample book is small, so the numbers are small too.</p>
+<p class="asciinema-caption">The sample book is small, so the sizes in the recording are small.</p>
 
 ---
 
@@ -33,16 +33,16 @@ calpdf is for people who are comfortable using a terminal. Start with [Installat
 A typical session on one book looks like this:
 
 ```bash
-# See what you are starting with
+# Inspect the PDF first
 calpdf info book.pdf
 
 # Download a cover and apply it in one step
 calpdf set-cover book.pdf 9780387967875
 
-# Make a PDF smaller (hopefully)
+# Compress the PDF when possible
 calpdf optimize book.pdf
 
-# Pull the bookmarks out, write the entries by hand, and put them back
+# Export the bookmarks, edit the JSON, and apply it
 calpdf export-toc book.pdf -o toc.json
 calpdf apply-toc book.pdf toc.json
 ```

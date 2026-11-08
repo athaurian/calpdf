@@ -6,29 +6,29 @@
 </div>
 
 Hi. This is calpdf, a simple PDF toolkit that I use alongside Calibre. It
-handles the small tasks that come up with PDFs, such as replacing a cover,
-reducing its file size, and editing its table of contents. It works on PDFs in
-a Calibre library or anywhere else on disk.
+handles common PDF tasks, such as replacing a cover, compressing a PDF when
+possible, and editing its table of contents. It works on PDFs in a Calibre
+library or anywhere else on disk.
 
 When calpdf changes a PDF in place, it keeps one `.bak` copy of the original
 before the first change, and `calpdf restore` puts it back.
 
 You can run the same tasks inside Calibre through the
-[Calibre plugin](docs/calibre.md), which gives you a friendlier interface.
+[Calibre plugin](docs/calibre.md), which provides a graphical interface.
 
 A typical session on one book looks like this:
 
-```sh
-# See what you are starting with
+```bash
+# Inspect the PDF first
 calpdf info book.pdf
 
 # Download a cover and apply it in one step
 calpdf set-cover book.pdf 9780387967875
 
-# Make a PDF smaller (hopefully)
+# Compress the PDF when possible
 calpdf optimize book.pdf
 
-# Pull the bookmarks out, write the entries by hand, and put them back
+# Export the bookmarks, edit the JSON, and apply it
 calpdf export-toc book.pdf -o toc.json
 calpdf apply-toc book.pdf toc.json
 ```
