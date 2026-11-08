@@ -6,11 +6,16 @@ template: home.html
 
 Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd rather read the source code, it's on [GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but it really is just a standalone tool I made for myself.
 
-calpdf handles the small jobs that usually come up when dealing with PDFs, such as replacing a PDF's cover, reducing its file size when possible, and editing its table of contents. calpdf can fetch covers from various sources too, as a bonus.
+calpdf handles the small tasks that usually come up when dealing with PDFs, such as:
+
+- Replacing a PDF's cover
+- Reducing its file size when possible
+- Editing its table of contents
+- Fetching covers from various sources, as a bonus
 
 When calpdf changes a PDF in place, it keeps one `.bak` copy of the original before the first change, and `calpdf restore` puts it back.
 
-I made calpdf because I wanted a small CLI tool for these jobs, not another bloated PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
+I made calpdf because I wanted a small CLI tool for these tasks, not another bloated PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
 You can use calpdf inside Calibre through the [Calibre plugin](calibre.md), which gives you a friendlier interface.
 
