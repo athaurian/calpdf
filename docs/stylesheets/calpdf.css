@@ -75,8 +75,8 @@
 .asciinema-caption {
   margin: 0.3em 0 1.2em;
   font-family: var(--md-text-font-family);
-  font-weight: 300;
-  font-size: 0.6rem;
+  font-weight: var(--docs-weight-body, 400);
+  font-size: var(--docs-size-caption, 0.6rem);
   font-style: italic;
   line-height: 1.4;
   color: var(--md-default-fg-color--light);
