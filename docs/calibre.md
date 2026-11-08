@@ -28,7 +28,7 @@ The plugin needs calpdf 0.2 or newer, Calibre 6 or newer, and `qpdf` on
 
 ## Tabs
 
-| Tab      | What it does                                                                                                               | calpdf command                                                                     |
+| Tab      | Action                                                                                                                     | calpdf command                                                                     |
 | -------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | Info     | Tells you the page count, page size, file size, PDF version, bookmark count, and whether a backup exists.                  | [`info`](commands/info.md)                                                         |
 | Cover    | Downloads a cover by ASIN or ISBN, or uses an image file. You can also replace the first page or prepend a new cover page. | [`set-cover`](commands/set-cover.md), [`replace-cover`](commands/replace-cover.md) |
