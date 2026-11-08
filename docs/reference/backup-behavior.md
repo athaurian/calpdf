@@ -8,6 +8,6 @@ calpdf restore book.pdf
 
 The backup is created once, before the first change. Later changes leave it unchanged, so the backup always holds the version from before that first change. To start a fresh backup, remove the `.bak` file and run the command again.
 
-A command reads the backup as its source, so its output is based on the backup. When the PDF is newer than the backup, because you edited it or ran another command, calpdf prints a warning before it discards the newer content.
+An in-place command reads the backup as its source, so its output is based on the backup. When the PDF's modification time is newer than the backup's, calpdf prints a warning because the command bases its output on the backup and discards the newer PDF content.
 
 For a summary, run `calpdf --help`.

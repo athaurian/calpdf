@@ -1,6 +1,6 @@
 # The ToC JSON format
 
-A ToC file is a list of entries, and each entry has a `title`, a `pageNumber`, and a `children` list. The following sample shows the format:
+A ToC file is a list of entries, and each entry has a `title`, a `pageNumber`, and a `children` list. `title` must be a non-empty string, `pageNumber` must be an integer from 1 to the page count, and `children` must be a list of entries with the same shape. Page numbers are 1-indexed physical page positions. The following sample shows the format:
 
 ```json
 [

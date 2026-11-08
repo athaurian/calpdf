@@ -23,19 +23,19 @@ To set up a development environment instead, see [Development](development.md).
 
 ## External dependencies
 
-calpdf uses one program that it does not install for you:
+calpdf depends on one external program:
 
-- `qpdf`: The [`optimize`](commands/optimize.md) command requires it. You must install it before you can optimize a PDF.
+- `qpdf`: Required by the [`optimize`](commands/optimize.md) command. Install it before you optimize a PDF.
 
 ## First run
 
-The [`info`](commands/info.md) command reads a PDF and prints what it finds. It is a safe first step on a file you care about:
+The [`info`](commands/info.md) command reads a PDF and prints its properties. It only reads the file, so you can run it on a PDF you care about:
 
 ```bash
 calpdf info book.pdf
 ```
 
-When you are ready to change something, the [`set-cover`](commands/set-cover.md) and [`optimize`](commands/optimize.md) commands are good first tasks. For a full pass over one book, see the [example session](index.md#example-session) on the home page. You can run the same tasks in a dialog with the [Calibre plugin](calibre.md), if you would rather stay in Calibre.
+When you are ready to change something, [`set-cover`](commands/set-cover.md) and [`optimize`](commands/optimize.md) are a good place to start because each makes one change and keeps a backup. For a full pass over one book, see the [example session](index.md#example-session) on the home page. You can run the same tasks in a dialog with the [Calibre plugin](calibre.md), if you would rather stay in Calibre.
 
 ## Arch Linux
 

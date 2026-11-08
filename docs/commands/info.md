@@ -1,6 +1,6 @@
 # The `info` command
 
-The `info` command shows information about a PDF, such as the number of pages, the PDF version, the file size, the bookmark count, and the page sizes. The text output lists up to five page sizes and summarizes the rest. The JSON output includes every page.
+The `info` command shows the page count, PDF version, file size, bookmark counts, and page sizes of a PDF. The text output lists the first five page sizes in points and reports how many pages it omitted. The JSON output includes every page with its width, height, and rotation. Bookmark counts include the total and the number of top-level entries.
 
 ```bash
 # Show a human-readable summary

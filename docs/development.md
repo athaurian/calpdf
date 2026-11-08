@@ -43,13 +43,13 @@ To try `optimize`, install `qpdf` first, as described in [External dependencies]
 
 Run the narrowest check while you work, then run `make check` before you open a pull request. It runs the lint checks, builds the documentation, and runs the test suite.
 
-| Command       | Action                                                     |
-| ------------- | ---------------------------------------------------------- |
-| `make test`   | Runs the pytest suite                                      |
-| `make lint`   | Runs Ruff, mypy, and Prettier without changing files       |
-| `make format` | Rewrites Python and Markdown with Ruff and Prettier        |
-| `make docs`   | Builds the site and fails on broken links or missing pages |
-| `make check`  | Runs the lint checks, the docs build, and the tests        |
+| Command       | Action                                                                          |
+| ------------- | ------------------------------------------------------------------------------- |
+| `make test`   | Runs the pytest suite                                                           |
+| `make lint`   | Runs Ruff, mypy, and Prettier without changing files                            |
+| `make format` | Rewrites Python and Markdown with Ruff and Prettier                             |
+| `make docs`   | Builds the site in strict mode, so warnings such as broken links fail the build |
+| `make check`  | Runs the lint checks, the docs build, and the tests                             |
 
 To run one test file, give it to pytest directly:
 
@@ -84,5 +84,7 @@ The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on pu
 | ---- | ----------------------------------------------- |
 | lint | `ruff check`, `ruff format --check`, and `mypy` |
 | test | pytest on Python 3.11, 3.12, and 3.13           |
+
+A separate `docs` workflow in `.github/workflows/docs.yml` builds the site in strict mode on the same triggers and deploys it on pushes to `main`.
 
 Dependencies are pinned in `uv.lock`. After you change `pyproject.toml`, run `uv lock` and commit the updated lockfile.

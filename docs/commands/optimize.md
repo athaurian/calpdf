@@ -1,6 +1,6 @@
 # The `optimize` command
 
-The `optimize` command makes a PDF smaller, hopefully. It uses `qpdf` to compress the file and remove metadata such as the title and author.
+The `optimize` command makes a PDF smaller, hopefully. It uses `qpdf` to compress the file and remove metadata such as the title and author. The command always passes `--remove-structure` to `qpdf`, so it also removes the document structure tree, which holds the accessibility tags. `--keep-metadata` does not preserve the structure tree.
 
 The result depends on what is inside the file:
 
@@ -29,6 +29,6 @@ By default, the command updates the PDF in place and keeps a backup. The options
 
 For more information about backups, see [Backup behavior](../reference/backup-behavior.md).
 
-If `qpdf` fails, calpdf stops and reports an error. Use `--force` to continue anyway. If `qpdf` reports warnings, calpdf prints a warning and continues.
+If `qpdf` exits with a nonzero code other than 3, calpdf stops and reports an error. Use `--force` to continue. If `qpdf` exits with code 3, it reported warnings; calpdf prints those warnings and continues.
 
 The `optimize` command requires `qpdf`. For more information, see [External dependencies](../installation.md#external-dependencies).

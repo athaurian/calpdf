@@ -56,10 +56,10 @@ Each command has its own page with its options and examples:
 | [`replace-cover`](commands/replace-cover.md) | Replaces the first page of a PDF with a cover image, or inserts the image as a new first page |
 | [`dl-cover`](commands/dl-cover.md)           | Downloads a cover image for a book by ASIN or ISBN                                            |
 | [`set-cover`](commands/set-cover.md)         | Downloads a cover by ASIN or ISBN and applies it to a PDF in one step                         |
-| [`extract-cover`](commands/extract-cover.md) | Extracts the cover image from a PDF page and saves it as a separate file                      |
-| [`optimize`](commands/optimize.md)           | Tries to make a PDF smaller with `qpdf`                                                       |
-| [`info`](commands/info.md)                   | Shows information about a PDF, such as its page count, file size, bookmarks, and page sizes   |
-| [`export-toc`](commands/export-toc.md)       | Exports the bookmarks, or _table of contents (ToC)_, of a PDF                                 |
+| [`extract-cover`](commands/extract-cover.md) | Extracts the largest image from a PDF page and saves it as a separate file                    |
+| [`optimize`](commands/optimize.md)           | Compresses a PDF with `qpdf` and removes metadata by default                                  |
+| [`info`](commands/info.md)                   | Shows a PDF's page count, version, file size, bookmarks, and page sizes                       |
+| [`export-toc`](commands/export-toc.md)       | Exports a PDF's bookmarks as a table of contents (ToC) in JSON or a tree view                 |
 | [`apply-toc`](commands/apply-toc.md)         | Replaces the bookmarks of a PDF with the table of contents from a JSON file                   |
 | [`restore`](commands/restore.md)             | Copies the `.bak` backup back over a PDF and deletes the backup                               |
 

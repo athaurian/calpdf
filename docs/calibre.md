@@ -7,21 +7,20 @@ for the same program.
 
 <figure class="screenshot">
   <img src="https://raw.githubusercontent.com/athaurian/calibre-calpdf/main/docs/screenshots/contents.png" alt="The CalPDF dialog on the Contents tab, showing a book's bookmarks as a tree.">
-  <figcaption>The Contents tab works on the selected book's outline. The first time calpdf modifies a PDF, it saves the original as a separate .bak file.</figcaption>
+  <figcaption>The Contents tab works on the selected book's outline, the PDF structure that stores bookmarks. The first time calpdf modifies a PDF, it saves the original as a separate backup file with a .bak suffix.</figcaption>
 </figure>
 
 ## Direct integration
 
-The plugin imports calpdf rather than running the command, so the backup rules,
-the ToC format, and the way `qpdf` runs all match the CLI.
+The plugin imports calpdf as a Python package rather than running the `calpdf` command, so the backup rules, the ToC format, and the way `qpdf` runs all match the CLI.
 
 Calibre imports calpdf from the Python installation it runs on, so installing
-calpdf using `uv tool install` will not help. On Arch, you can install
+calpdf using `uv tool install` does not help. On Arch, you can install
 `calpdf-git` from my
 [Forge repository](https://github.com/athaurian/forge), and it goes into the
 system Python that Calibre uses. Elsewhere, install calpdf into the same Python
 installation. When the dialog opens, the plugin checks the calpdf version and
-explains a mismatch instead of leaving you with a broken dialog.
+reports a mismatch instead of leaving you with a broken dialog.
 
 The plugin needs calpdf 0.2 or newer, Calibre 6 or newer, and `qpdf` on
 `PATH` for the Optimize tab.
@@ -30,7 +29,7 @@ The plugin needs calpdf 0.2 or newer, Calibre 6 or newer, and `qpdf` on
 
 | Tab      | Action                                                                                                                     | calpdf command                                                                     |
 | -------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Info     | Tells you the page count, page size, file size, PDF version, bookmark count, and whether a backup exists.                  | [`info`](commands/info.md)                                                         |
+| Info     | Shows the page count, page size, file size, PDF version, bookmark count, and whether a backup exists.                      | [`info`](commands/info.md)                                                         |
 | Cover    | Downloads a cover by ASIN or ISBN, or uses an image file. You can also replace the first page or prepend a new cover page. | [`set-cover`](commands/set-cover.md), [`replace-cover`](commands/replace-cover.md) |
 | Contents | Edits the outline as a tree and imports or exports the ToC JSON.                                                           | [`export-toc`](commands/export-toc.md), [`apply-toc`](commands/apply-toc.md)       |
 | Optimize | Runs `qpdf`, with options to strip color profiles and keep the document metadata.                                          | [`optimize`](commands/optimize.md)                                                 |
@@ -55,7 +54,7 @@ If you close the dialog without applying anything, the PDF is untouched.
 
 ## Install
 
-The plugin lives at
+The plugin is at
 [athaurian/calibre-calpdf](https://github.com/athaurian/calibre-calpdf). The
 README has the full build and install steps. To build and install from a
 checkout, run:
@@ -67,8 +66,8 @@ make build
 calibre-customize -a dist/calpdf.zip
 ```
 
-Restart Calibre, then add the **CalPDF** button from _Preferences → Interface →
-Toolbars & menus_.
+Restart Calibre, then add the **CalPDF** button from **Preferences > Interface >
+Toolbars & menus**.
 
 I use CalPDF on Linux. On Windows and macOS, Calibre bundles its own Python,
 and I have not covered how to install calpdf into it yet.
