@@ -476,7 +476,8 @@ def main(
 def set_cover(
     input_pdf: Path = typer.Argument(..., help="Path to the input PDF file"),
     book_id: str = typer.Argument(
-        ..., help="Amazon ASIN or ISBN to download (e.g. B08X92NRKV, 9780387967875)"
+        ...,
+        help="ASIN, ISBN, or OLID to download (e.g. B08X92NRKV, 9780387967875, OL123W)",
     ),
     output_pdf: Optional[Path] = typer.Option(
         None,

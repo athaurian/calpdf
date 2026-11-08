@@ -23,17 +23,17 @@ _IMAGE_SIGNATURES: list[tuple[str, bytes]] = [
     ("PNG", b"\x89PNG"),
 ]
 
-# ASINs and ISBNs contain only letters, digits, and dashes. Restrict to that
-# charset so the id cannot mangle URLs or escape the default output path.
+# ASINs, ISBNs, and OLIDs contain only letters, digits, and dashes. Restrict to
+# that charset so the id cannot mangle URLs or escape the default output path.
 _BOOK_ID_PATTERN = re.compile(r"^[A-Za-z0-9-]+$")
 
 
 def validate_book_id(book_id: str) -> None:
-    """Reject ids that are not plausible ASIN/ISBN values."""
+    """Reject ids that are not plausible ASIN, ISBN, or OLID values."""
     if not _BOOK_ID_PATTERN.match(book_id):
         raise AppError(
             f"Invalid BOOK_ID '{book_id}': only letters, digits and '-' are "
-            "allowed (an ASIN or ISBN is expected)."
+            "allowed (an ASIN, ISBN, or OLID is expected)."
         )
 
 
@@ -100,7 +100,7 @@ def download_cover(book_id: str, output_path: Path) -> Path:
 def main(
     book_id: str = typer.Argument(
         ...,
-        help="Amazon ASIN or ISBN identifier (e.g. B08X92NRKV, 9780387967875)",
+        help="Amazon ASIN, ISBN, or OLID (e.g. B08X92NRKV, 9780387967875, OL123W)",
     ),
     output_file: Optional[Path] = typer.Option(
         None,
@@ -109,7 +109,7 @@ def main(
         help="Output file path (default: <BOOK_ID>_cover.jpg)",
     ),
 ) -> None:
-    """Download a cover image for a book by ASIN or ISBN."""
+    """Download a cover image for a book by ASIN, ISBN, or Open Library ID."""
     try:
         validate_book_id(book_id)
         target = output_file or Path(f"{book_id}_cover.jpg")

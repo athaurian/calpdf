@@ -54,8 +54,8 @@ Each command has its own page with its options and examples:
 | Command                                      | Description                                                                                   |
 | -------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | [`replace-cover`](commands/replace-cover.md) | Replaces the first page of a PDF with a cover image, or inserts the image as a new first page |
-| [`dl-cover`](commands/dl-cover.md)           | Downloads a cover image for a book by ASIN or ISBN                                            |
-| [`set-cover`](commands/set-cover.md)         | Downloads a cover by ASIN or ISBN and applies it to a PDF in one step                         |
+| [`dl-cover`](commands/dl-cover.md)           | Downloads a cover image for a book by ASIN, ISBN, or OLID                                     |
+| [`set-cover`](commands/set-cover.md)         | Downloads a cover by ASIN, ISBN, or OLID and applies it to a PDF in one step                  |
 | [`extract-cover`](commands/extract-cover.md) | Extracts the largest image from a PDF page and saves it as a separate file                    |
 | [`optimize`](commands/optimize.md)           | Compresses a PDF with `qpdf` and removes metadata by default                                  |
 | [`info`](commands/info.md)                   | Shows a PDF's page count, version, file size, bookmarks, and page sizes                       |
