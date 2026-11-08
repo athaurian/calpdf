@@ -35,7 +35,7 @@ The [`info`](commands/info.md) command reads a PDF and prints what it finds. It 
 calpdf info book.pdf
 ```
 
-When you are ready to change something, the [`set-cover`](commands/set-cover.md) and [`optimize`](commands/optimize.md) commands are good first jobs. For a full pass over one book, see the [example session](index.md#example-session) on the home page. You can run the same jobs in a dialog with the [Calibre plugin](calibre.md), if you would rather stay in Calibre.
+When you are ready to change something, the [`set-cover`](commands/set-cover.md) and [`optimize`](commands/optimize.md) commands are good first tasks. For a full pass over one book, see the [example session](index.md#example-session) on the home page. You can run the same tasks in a dialog with the [Calibre plugin](calibre.md), if you would rather stay in Calibre.
 
 ## Arch Linux
 
