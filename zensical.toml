@@ -9,7 +9,6 @@ copyright = """
 <span>Made with ❤️ and <a href="https://zensical.org">Zensical</a></span> <span>Content licensed under <a href="https://github.com/athaurian/calpdf/blob/main/LICENSE">MIT</a></span>
 """
 
-# Merriweather is loaded as a webfont for the serif roles that extra.css assigns.
 extra_css = [
   "https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300..900;1,300..900&display=fallback",
   "stylesheets/asciinema-player.css",
@@ -17,7 +16,6 @@ extra_css = [
   "stylesheets/calpdf.css",
 ]
 
-# The player bundle and its initializer load after the theme's own scripts.
 extra_javascript = [
   "javascripts/asciinema-player.min.js",
   "javascripts/asciinema.js",
@@ -48,12 +46,7 @@ nav = [
 
 [project.theme]
 variant = "modern"
-font.text = "Source Sans 3"
-font.code = "Source Code Pro"
-# The monogram tile comes from the docs theme, at --fill 0.38. It is the header
-# logo and the README image. The favicon is the absolute ICO URL, so link
-# preview crawlers can fetch it without resolving a relative path. The theme
-# adds the SVG and PNG variants.
+font = false
 logo = "favicon.svg"
 favicon = "https://athaurian.github.io/calpdf/favicon.ico"
 features = [
@@ -65,11 +58,8 @@ features = [
   "search.highlight",
 ]
 
-# overrides/home.html sets the home page's document title to the site name.
 custom_dir = "overrides"
 
-# The visible colors come from stylesheets/extra.css, which overrides the --md-*
-# variables. The scheme names here only select which block applies.
 [[project.theme.palette]]
 media = "(prefers-color-scheme: light)"
 scheme = "default"
@@ -89,8 +79,6 @@ toggle.name = "Switch to light mode"
 [project.markdown_extensions]
 admonition = {}
 attr_list = {}
-# Images open in a lightbox instead of being static. Light and dark variants
-# are separate galleries, so the hidden mode is not offered in the lightbox.
 zensical.extensions.glightbox.auto_themed = true
 def_list = {}
 footnotes = {}
@@ -103,13 +91,7 @@ pymdownx.snippets = {}
 pymdownx.superfences = {}
 pymdownx.tabbed.alternate_style = true
 
-# generator = false removes the stock "Made with Zensical" line that would
-# otherwise sit next to the copyright. homepage is the logo link target. The nav
-# entry's own url is empty when the home page sits at the docs root, and the
-# value goes through the url filter, so it must be a URL instead of a source
-# path.
 [project.extra]
 generator = false
 homepage = "."
-# oembed.json carries the provider name and URL for link previews.
 oembed = "oembed.json"
