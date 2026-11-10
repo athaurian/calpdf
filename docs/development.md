@@ -1,8 +1,8 @@
 # Development
 
-calpdf needs Python 3.11 or later, [uv](https://docs.astral.sh/uv/), and Git.
-The common checks also need `make` and Node.js, because the Makefile runs
-Prettier through `npx`.
+calpdf needs Python 3.11 or later, [Git](https://git-scm.com/downloads), and the
+`uv` package manager. The common checks also need `make` and Node.js, because
+the Makefile runs Prettier through `npx`.
 
 ## Set up the checkout
 
@@ -62,8 +62,7 @@ To run one test file, give it to pytest directly:
 uv run pytest tests/test_toc.py
 ```
 
-You can add `::TestValidateToc` or a test name to run a smaller part of the
-file.
+Add `::TestValidateToc` or a test name to run a smaller part of the file.
 
 ## Documentation
 
@@ -83,7 +82,7 @@ here are generated, so make theme changes there and run its `make sync`. Styles
 that belong only to this site go in `docs/stylesheets/calpdf.css`.
 
 The screenshots on the [Calibre plugin](calibre.md) page come from the plugin
-repository. Regenerate them with `make ui` in `calibre-calpdf`, and do not
+repository. Regenerate them with `make ui` in `calibre-calpdf`, and don't
 commit screenshot files to this repository.
 
 To publish a change, merge it to `main`. Only a push to `main` deploys the site.

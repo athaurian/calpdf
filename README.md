@@ -6,15 +6,15 @@
 </div>
 
 Hi. This is calpdf, a simple PDF toolkit that I use alongside Calibre. It
-handles common PDF tasks, such as replacing a cover, compressing a PDF when
-possible, and editing its table of contents. It works on PDFs in a Calibre
-library or anywhere else on disk.
+handles common PDF tasks: replacing a cover, compressing a PDF when possible,
+and editing its table of contents. It works on PDFs in a Calibre library or
+anywhere else on disk.
 
 When calpdf changes a PDF in place, it keeps one `.bak` copy of the original
 before the first change, and `calpdf restore` puts it back.
 
-You can run the same tasks inside Calibre through the
-[Calibre plugin](docs/calibre.md), which provides a graphical interface.
+Inside Calibre, the [Calibre plugin](docs/calibre.md) does the same work with a
+graphical interface.
 
 A typical session on one book looks like this:
 

@@ -7,9 +7,9 @@ template: home.html
 Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd
 rather read the source code, it's on
 [GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but
-it is also a standalone tool that does not require Calibre.
+it's also a standalone tool that doesn't require Calibre.
 
-calpdf handles common PDF tasks, including the following:
+calpdf handles common PDF tasks:
 
 - Replacing a PDF's cover
 - Compressing a PDF when possible
@@ -22,8 +22,8 @@ before the first change, and `calpdf restore` puts it back.
 I made calpdf because I wanted a small CLI tool for these tasks instead of a
 full PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
 
-You can use calpdf inside Calibre through the [Calibre plugin](calibre.md),
-which provides a graphical interface.
+Inside Calibre, the [Calibre plugin](calibre.md) does the same work with a
+graphical interface.
 
 ---
 

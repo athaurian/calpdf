@@ -32,9 +32,9 @@ built:
 
 For more information, see [Backup behavior](../reference/backup-behavior.md).
 
-The target page sets the cover size. In replace mode, it is the first page that
-remains after the replaced pages. If every page is replaced, it is the last
-page. In insert mode, it is the first page.
+The target page sets the cover size. In replace mode, it's the first page that
+remains after the replaced pages. If every page is replaced, it's the last
+page. In insert mode, it's the first page.
 
 The `--fit` option controls how the image fits on the page:
 

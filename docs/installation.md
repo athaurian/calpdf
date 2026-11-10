@@ -1,6 +1,6 @@
 # Installation
 
-You need Python 3.11 or later, [Git](https://git-scm.com/downloads), and the
+calpdf needs Python 3.11 or later, [Git](https://git-scm.com/downloads), and the
 `uv` package manager. If you don't have `uv` yet, see the
 [uv installation guide](https://docs.astral.sh/uv/).
 
@@ -19,7 +19,7 @@ Install the command with `uv`:
 uv tool install .
 ```
 
-This installs calpdf in its own environment. If the `calpdf` command is not
+This installs calpdf in its own environment. If the `calpdf` command isn't
 found afterward, run `uv tool update-shell` and restart your shell.
 
 To set up a development environment instead, see [Development](development.md).
@@ -43,9 +43,9 @@ calpdf info book.pdf
 When you are ready to change something, [`set-cover`](commands/set-cover.md) and
 [`optimize`](commands/optimize.md) are a good place to start because each makes
 one change and keeps a backup. For a full pass over one book, see the
-[example session](index.md#example-session) on the home page. You can run the
-same tasks in a dialog with the [Calibre plugin](calibre.md), if you would
-rather stay in Calibre.
+[example session](index.md#example-session) on the home page. If you would
+rather stay in Calibre, the [Calibre plugin](calibre.md) runs the same tasks in
+a dialog.
 
 ## Arch Linux
 

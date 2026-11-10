@@ -1,6 +1,6 @@
 # Global options
 
-You can place the following options before any subcommand:
+These options go before any subcommand:
 
 ```bash
 calpdf --quiet COMMAND ...      # suppress informational output except errors and warnings
@@ -8,7 +8,7 @@ calpdf --no-color COMMAND ...   # disable colored output
 calpdf --version                # show the version and exit
 ```
 
-The `--quiet` option does not suppress JSON data. Without `--output`, the
+The `--quiet` option doesn't suppress JSON data. Without `--output`, the
 `info --format json` and `export-toc` commands still write their JSON to
 standard output.
 

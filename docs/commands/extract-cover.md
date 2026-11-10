@@ -22,9 +22,9 @@ largest image on the selected page, so it skips small icons and returns the
 image that most likely is the cover.
 
 To write the original bytes without re-encoding, use `--raw`. With `--raw`,
-calpdf writes the embedded bytes unchanged and does not check the output
-extension. If the extension does not match the embedded format, the file holds
-bytes that do not match its name.
+calpdf writes the embedded bytes unchanged and doesn't check the output
+extension. If the extension doesn't match the embedded format, the file holds
+bytes that don't match its name.
 
 ## Reusing the cover in Calibre
 
@@ -38,5 +38,5 @@ To set the extracted image as the book's cover in Calibre:
 
 1. Open the book.
 2. Choose **Edit metadata**.
-3. Drag the extracted file (for `book.pdf`, that is `book_cover.jpg` or
+3. Drag the extracted file (for `book.pdf`, `book_cover.jpg` or
    `book_cover.png`) onto the cover in the **Edit metadata** dialog.

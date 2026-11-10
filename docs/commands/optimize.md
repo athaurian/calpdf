@@ -2,7 +2,7 @@
 
 The `optimize` command uses `qpdf` to compress a PDF. By default, it also
 removes metadata such as the title and author. It also removes the document
-structure tree, which holds the accessibility tags. `--keep-metadata` does not
+structure tree, which holds the accessibility tags. `--keep-metadata` doesn't
 preserve the structure tree.
 
 The result depends on what is inside the file:
@@ -13,7 +13,7 @@ The result depends on what is inside the file:
   linearization data.
 
 When the command finishes, it reports how the size changed, as in
-`Size: 2.5 MB to 425.7 KB, 84% smaller.` If the size does not change, the report
+`Size: 2.5 MB to 425.7 KB, 84% smaller.` If the size doesn't change, the report
 ends with `unchanged`.
 
 The following examples show common ways to use it:

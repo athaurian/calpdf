@@ -19,11 +19,11 @@ Without `--output`, calpdf saves the image in the current directory as
 `BOOK_ID_cover.jpg` or `BOOK_ID_cover.png`, choosing the extension from the
 detected image format. `BOOK_ID` is the identifier you passed. The identifier
 can only contain ASCII letters, digits, and dashes. `--output` writes the
-downloaded bytes unchanged to the path you give, so it does not convert the
+downloaded bytes unchanged to the path you give, so it doesn't convert the
 image or change the extension.
 
 calpdf tries Amazon first, then Open Library by ISBN and by OLID. It skips error
-responses, very small images, and responses that are not JPEG or PNG.
+responses, very small images, and responses that aren't JPEG or PNG.
 
 To download a cover and apply it to a PDF in one step, use
 [`set-cover`](set-cover.md).
