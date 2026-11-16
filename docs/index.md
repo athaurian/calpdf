@@ -4,7 +4,7 @@ template: home.html
 
 # calpdf
 
-This is the documentation index. If you want an overview instead, see [the project's README.md](https://github.com/athaurian/calpdf/blob/main/README.md)
+This is the documentation index. If you want an overview instead, see [the project's README.md](https://github.com/athaurian/calpdf/blob/main/README.md).
 
 ---
 
