@@ -4,78 +4,36 @@ template: home.html
 
 # calpdf
 
-Hi. This is the documentation I wrote for calpdf, a simple PDF toolkit. If you'd
-rather read the source code, it's on
-[GitHub](https://github.com/athaurian/calpdf). I use it alongside Calibre, but
-it's also a standalone tool that doesn't require Calibre.
-
-calpdf handles common PDF tasks:
-
-- Replacing a PDF's cover
-- Compressing a PDF when possible
-- Editing its table of contents
-- Fetching covers from several sources
-
-When calpdf changes a PDF in place, it keeps one `.bak` copy of the original
-before the first change, and `calpdf restore` puts it back.
-
-I made calpdf because I wanted a small CLI tool for these tasks instead of a
-full PDF editor. It works on PDFs in a Calibre library or anywhere else on disk.
-
-Inside Calibre, the [Calibre plugin](calibre.md) does the same work with a
-graphical interface.
+This is the documentation index. If you want an overview instead, see [the project's README.md](https://github.com/athaurian/calpdf/blob/main/README.md)
 
 ---
 
 <div class="asciinema-demo" role="group" data-asciinema-cast="assets/casts/cover-and-restore.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of a cover replacement and restore session"></div>
-<p class="asciinema-caption">The sample book is small, so the sizes in the recording are small.</p>
+<p class="asciinema-caption">The sample book is small, so the sizes in the recording are small as well.</p>
 
 ---
 
-calpdf is for people who are comfortable using a terminal. Start with
-[Installation](installation.md).
-
-## Example session
-
-A typical session on one book looks like this:
-
-```bash
-# Inspect the PDF first
-calpdf info book.pdf
-
-# Download a cover and apply it in one step
-calpdf set-cover book.pdf 9780387967875
-
-# Compress the PDF when possible
-calpdf optimize book.pdf
-
-# Export the bookmarks, edit the JSON, and apply it
-calpdf export-toc book.pdf -o toc.json
-calpdf apply-toc book.pdf toc.json
-```
-
 ## Commands
 
-Each command has its own page with its options and examples:
+| Command                                      | Description                                                           |
+| :------------------------------------------- | :-------------------------------------------------------------------- |
+| [`info`](commands/info.md)                   | Inspect page count, dimensions, PDF version, file size, and bookmarks |
+| [`replace-cover`](commands/replace-cover.md) | Replace the first page(s) or insert a new cover from a PNG/JPEG       |
+| [`dl-cover`](commands/dl-cover.md)           | Download a cover image by ASIN, ISBN, or Open Library ID              |
+| [`set-cover`](commands/set-cover.md)         | Download a cover by ID and apply it in one step                       |
+| [`extract-cover`](commands/extract-cover.md) | Extract the largest embedded image from a page                        |
+| [`export-toc`](commands/export-toc.md)       | Export PDF bookmarks as JSON or an indented tree                      |
+| [`apply-toc`](commands/apply-toc.md)         | Replace PDF bookmarks from a JSON file                                |
+| [`optimize`](commands/optimize.md)           | Compress and linearize PDFs with `qpdf`                               |
+| [`restore`](commands/restore.md)             | Revert an in-place edit from its `.bak` file                          |
 
-| Command                                      | Description                                                                                   |
-| -------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [`replace-cover`](commands/replace-cover.md) | Replaces the first page of a PDF with a cover image, or inserts the image as a new first page |
-| [`dl-cover`](commands/dl-cover.md)           | Downloads a cover image for a book by ASIN, ISBN, or OLID                                     |
-| [`set-cover`](commands/set-cover.md)         | Downloads a cover by ASIN, ISBN, or OLID and applies it to a PDF in one step                  |
-| [`extract-cover`](commands/extract-cover.md) | Extracts the largest image from a PDF page and saves it as a separate file                    |
-| [`optimize`](commands/optimize.md)           | Compresses a PDF with `qpdf` and removes metadata by default                                  |
-| [`info`](commands/info.md)                   | Shows a PDF's page count, version, file size, bookmarks, and page sizes                       |
-| [`export-toc`](commands/export-toc.md)       | Exports a PDF's bookmarks as a table of contents (ToC) in JSON or a tree view                 |
-| [`apply-toc`](commands/apply-toc.md)         | Replaces the bookmarks of a PDF with the table of contents from a JSON file                   |
-| [`restore`](commands/restore.md)             | Copies the `.bak` backup back over a PDF and deletes the backup                               |
+## Guides and reference
 
-## Options and reference
-
-| Reference                                       | Description                          |
-| ----------------------------------------------- | ------------------------------------ |
-| [Global options](global-options.md)             | Options placed before any subcommand |
-| [ToC JSON format](reference/toc-json-format.md) | Table of contents JSON format        |
-| [Backup behavior](reference/backup-behavior.md) | How backups work                     |
-
-To set up a development environment, see [Development](development.md).
+| Page                                            | Description                                                       |
+| :---------------------------------------------- | :---------------------------------------------------------------- |
+| [Installation](installation.md)                 | Install with `uv` or from the Arch Linux Forge repository         |
+| [Calibre plugin](calibre.md)                    | Use `calpdf` inside Calibre and share the same Python environment |
+| [Global options](global-options.md)             | `--quiet`, `--no-color`, `--version`, and shell completion        |
+| [ToC JSON format](reference/toc-json-format.md) | Schema and page-numbering rules for `export-toc` and `apply-toc`  |
+| [Backup behavior](reference/backup-behavior.md) | How `.bak` files are created, reused as a baseline, and restored  |
+| [Development](development.md)                   | Test, lint, and documentation build targets                       |

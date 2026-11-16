@@ -1,26 +1,22 @@
 # Global options
 
-These options go before any subcommand:
+Pass global flags before the subcommand name:
 
 ```bash
-calpdf --quiet COMMAND ...      # suppress informational output except errors and warnings
-calpdf --no-color COMMAND ...   # disable colored output
-calpdf --version                # show the version and exit
+calpdf [GLOBAL OPTIONS] COMMAND [ARGS]...
 ```
 
-The `--quiet` option doesn't suppress JSON data. Without `--output`, the
-`info --format json` and `export-toc` commands still write their JSON to
-standard output.
+| Option            | Description                                                                                                                                                                                                             |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-q`, `--quiet`   | Suppress status messages and progress output. Warnings, errors, and machine-readable data written to stdout (`info --format json` and `export-toc` without `-o`) are still printed so shell pipelines continue to work. |
+| `--no-color`      | Disable ANSI color formatting in terminal output.                                                                                                                                                                       |
+| `-v`, `--version` | Print the `calpdf` version and exit.                                                                                                                                                                                    |
 
-The `--quiet` and `--version` options have the short forms `-q` and `-v`. To see
-the help text and the list of commands, run `calpdf` without arguments. To view
-a command's options, run `calpdf COMMAND --help`.
+## Shell completion
 
-Tab completion is built in. To install it for the current shell, run:
+Install or inspect tab-completion scripts for your current shell (`bash`, `zsh`, `fish`, or `powershell`):
 
 ```bash
 calpdf --install-completion
+calpdf --show-completion
 ```
-
-Run it once per shell type, then restart the shell. To print the completion code
-instead of installing it, run `calpdf --show-completion`.

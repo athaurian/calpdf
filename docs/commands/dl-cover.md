@@ -1,29 +1,25 @@
-# The `dl-cover` command
+# `dl-cover`
 
-The `dl-cover` command downloads a cover image for a book. Pass an _Amazon
-Standard Identification Number (ASIN)_, an _International Standard Book Number
-(ISBN)_, or an _Open Library ID (OLID)_:
+Downloads a book cover by Amazon ASIN (`B08X92NRKV`), ISBN-10/13 (`9780387967875`), or Open Library ID (`OL123W`).
 
 ```bash
-# Download a cover by ASIN
-calpdf dl-cover B08X92NRKV
+# Saves to 9780387967875_cover.jpg (or .png, matching the server's format)
+calpdf dl-cover 9780387967875
 
-# Download a cover by ISBN and save it with a specific name
-calpdf dl-cover 9780387967875 -o mycover.jpg
-
-# Download a cover by Open Library ID
-calpdf dl-cover OL123W
+# Write raw downloaded bytes to an explicit path
+calpdf dl-cover B08X92NRKV -o cover.jpg
 ```
 
-Without `--output`, calpdf saves the image in the current directory as
-`BOOK_ID_cover.jpg` or `BOOK_ID_cover.png`, choosing the extension from the
-detected image format. `BOOK_ID` is the identifier you passed. The identifier
-can only contain ASCII letters, digits, and dashes. `--output` writes the
-downloaded bytes unchanged to the path you give, so it doesn't convert the
-image or change the extension.
+## Lookup order and filtering
 
-calpdf tries Amazon first, then Open Library by ISBN and by OLID. It skips error
-responses, very small images, and responses that aren't JPEG or PNG.
+`dl-cover` queries sources in order and stops at the first valid image:
 
-To download a cover and apply it to a PDF in one step, use
-[`set-cover`](set-cover.md).
+1. Amazon (direct product image lookup)
+2. Open Library (by ISBN, then by Open Library ID)
+
+To avoid saving broken placeholders, `dl-cover` skips HTTP errors, non-JPEG/PNG responses, and tiny placeholder images (such as 1×1 tracking pixels).
+
+## Output naming and `--output`
+
+- **Default filename**: Sanitizes the identifier to ASCII letters, digits, and dashes, and appends `_cover.jpg` or `_cover.png` based on the image's actual header bytes.
+- **`-o`, `--output PATH`**: Writes the downloaded bytes directly to `PATH` without transcoding. Make sure the extension you choose matches the downloaded format (most sources return JPEG).

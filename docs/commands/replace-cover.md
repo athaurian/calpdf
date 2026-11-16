@@ -1,56 +1,28 @@
-# The `replace-cover` command
+# `replace-cover`
 
-The `replace-cover` command replaces the first page of a PDF with a cover image,
-or inserts the image as a new first page. The image must be a PNG or JPEG file.
-
-The following examples show common ways to use it:
+Replaces the opening page(s) of a PDF—or prepends a new page 1—using a local PNG or JPEG image.
 
 ```bash
-# Replace the first page with a new cover image
 calpdf replace-cover book.pdf cover.jpg
-
-# Insert the image as a new first page without removing any pages
-calpdf replace-cover book.pdf cover.jpg --mode insert
-
-# Write to a new file instead of updating the input file
-calpdf replace-cover book.pdf cover.jpg -o output.pdf
-
-# Replace the first two pages
-calpdf replace-cover book.pdf cover.jpg --pages 2
+calpdf replace-cover book.pdf cover.png --mode insert --fit fill -o output.pdf
 ```
 
-By default, the command updates the PDF in place and keeps a backup of the
-original file. These options control where the result goes and how the cover is
-built:
+If `-o` / `--output` is omitted, `book.pdf` is modified in place (see [Backup behavior](../reference/backup-behavior.md)).
 
-| Option           | Effect                                                                                                  |
-| ---------------- | ------------------------------------------------------------------------------------------------------- |
-| `--output`, `-o` | Writes the result to a new file.                                                                        |
-| `--mode`         | Selects `replace` (the default) or `insert`, which keeps all pages.                                     |
-| `--pages`        | Controls how many pages the image replaces (only used in replace mode).                                 |
-| `--dpi`          | Sets the resolution of the cover image (the default is 300 dots per inch, and the range is 72 to 1200). |
+## Options
 
-For more information, see [Backup behavior](../reference/backup-behavior.md).
+| Option                           | Default       | Description                                                                                                                                                                                                  |
+| :------------------------------- | :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-o`, `--output PATH`            | In place      | Write the modified PDF to `PATH` instead of overwriting the input file.                                                                                                                                      |
+| `--mode [replace\|insert]`       | `replace`     | `replace` removes the first `--pages` pages before inserting the cover, **along with any bookmarks and internal links targeting those removed pages**. Use `insert` when page 1 is content you want to keep. |
+| `--pages INTEGER`                | `1`           | Number of leading pages to remove in `replace` mode (`1–50`). Ignored in `insert` mode.                                                                                                                      |
+| `--fit [match-width\|fill\|fit]` | `match-width` | How to adapt the cover image when its aspect ratio differs from the target page.                                                                                                                             |
+| `--dpi INTEGER`                  | `300`         | Rendering resolution (`72–1200` DPI) used when calculating page dimensions from pixel size.                                                                                                                  |
 
-The target page sets the cover size. In replace mode, it's the first page that
-remains after the replaced pages. If every page is replaced, it's the last
-page. In insert mode, it's the first page.
+## Fit modes and page sizing
 
-The `--fit` option controls how the image fits on the page:
+`calpdf` picks the target page width and height from the first surviving page after the cover (for example, page 2 when replacing page 1). If no pages survive—such as a single-page PDF in `replace` mode—the page size is derived from the image's pixel dimensions and `--dpi`.
 
-- `match-width` (the default) keeps the width of the target page and sets the
-  height from the image's aspect ratio, so the image fills the page with no
-  cropping and no empty space.
-- `fill` scales the image to cover the exact target page size and crops the
-  parts that overflow.
-- `fit` scales the image to fit inside the exact target page size and centers it
-  on a white background.
-
-When replace mode removes pages, calpdf also removes bookmarks and internal
-links that point to the removed pages.
-
-If you swap the arguments and pass the image as the first argument, calpdf
-detects the mix-up and prints a hint.
-
-The [`set-cover`](set-cover.md) command accepts the same options, except for the
-image argument.
+- **`match-width` (default)**: Scales the cover to match the target page width and adjusts the cover page's height to match the image's aspect ratio. Prevents cropping and margins while keeping page width consistent across the book.
+- **`fill`**: Scales the image to completely fill the target width and height, cropping any excess on the top/bottom or left/right edges.
+- **`fit`**: Scales the entire image to fit inside the target width and height, centering it with margins on the shorter axis.

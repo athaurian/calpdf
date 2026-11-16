@@ -1,40 +1,21 @@
 # Calibre plugin
 
-calpdf is mainly a command-line tool. I work from a terminal most of the time,
-but switching out of the library to change a cover is tedious.
-[CalPDF](https://github.com/athaurian/calibre-calpdf) is a graphical interface
-for the same program.
+Switching out of Calibre to a terminal just to swap a cover or fix a bookmark tree is tedious. [`calibre-calpdf`](https://github.com/athaurian/calibre-calpdf) wraps `calpdf` in a Calibre dialog so you can run the same operations directly on the selected book in your library.
 
 <figure class="screenshot">
   <img src="https://raw.githubusercontent.com/athaurian/calibre-calpdf/main/docs/screenshots/contents.png" alt="The CalPDF dialog on the Contents tab, showing a book's bookmarks as a tree.">
   <figcaption>The Contents tab shows the selected book's bookmarks as a tree.</figcaption>
 </figure>
 
-## Direct integration
+## Tab to CLI mapping
 
-The plugin uses calpdf directly, so the backup rules, the ToC format, and the way
-`qpdf` runs all match the CLI.
-
-Calibre imports calpdf from the Python installation it runs on, so installing
-calpdf using `uv tool install` doesn't help. On Arch, you can install
-`calpdf-git` from my [Forge repository](https://github.com/athaurian/forge), and
-it goes into the system Python that Calibre uses. Elsewhere, install calpdf into
-the same Python installation. When the dialog opens, the plugin checks the
-calpdf version and reports a mismatch instead of leaving you with a broken
-dialog.
-
-The plugin needs calpdf 0.2 or newer, Calibre 6 or newer, and `qpdf` on `PATH`
-for the Optimize tab.
-
-## Tabs
-
-| Tab      | Action                                                                                                                         | calpdf command                                                                     |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| Info     | Shows the page count, page size, file size, PDF version, bookmark count, and whether a backup exists.                          | [`info`](commands/info.md)                                                         |
-| Cover    | Downloads a cover by ASIN, ISBN, or OLID, or uses an image file. It can replace one or more pages or prepend a new cover page. | [`set-cover`](commands/set-cover.md), [`replace-cover`](commands/replace-cover.md) |
-| Contents | Edits the bookmarks as a tree and imports or exports the ToC JSON.                                                             | [`export-toc`](commands/export-toc.md), [`apply-toc`](commands/apply-toc.md)       |
-| Optimize | Runs `qpdf`, with options to strip color profiles and keep the document metadata.                                              | [`optimize`](commands/optimize.md)                                                 |
-| Backup   | Puts the `.bak` copy back.                                                                                                     | [`restore`](commands/restore.md)                                                   |
+| Plugin tab   | Equivalent `calpdf` command                                                                         |
+| :----------- | :-------------------------------------------------------------------------------------------------- |
+| **Info**     | [`calpdf info`](commands/info.md)                                                                   |
+| **Cover**    | [`calpdf replace-cover`](commands/replace-cover.md) and [`calpdf set-cover`](commands/set-cover.md) |
+| **Contents** | [`calpdf export-toc`](commands/export-toc.md) and [`calpdf apply-toc`](commands/apply-toc.md)       |
+| **Optimize** | [`calpdf optimize`](commands/optimize.md)                                                           |
+| **Backup**   | [`calpdf restore`](commands/restore.md)                                                             |
 
 <figure class="screenshot">
   <img src="https://raw.githubusercontent.com/athaurian/calibre-calpdf/main/docs/screenshots/info.png" alt="The CalPDF dialog on the Info tab, showing pages, page size, file size, version, and backup status.">
@@ -46,29 +27,13 @@ for the Optimize tab.
   <figcaption>The Cover tab shows a preview of the image before it replaces the first page or adds a new cover page.</figcaption>
 </figure>
 
-## Backup behavior
+Both the plugin and the CLI share the same `book.pdf.bak` file; see [Backup behavior](reference/backup-behavior.md) for how `.bak` baselines work.
 
-The plugin doesn't keep a version history. It uses the same `.bak` backup as
-the CLI. The Backup tab puts that copy back and deletes it, the same way
-[`restore`](commands/restore.md) does. If you close the dialog without applying
-anything, the PDF is untouched.
+## Python environment requirement
 
-## Install
+The plugin imports `calpdf` inside Calibre's Python process:
 
-The plugin is at
-[athaurian/calibre-calpdf](https://github.com/athaurian/calibre-calpdf). The
-README has the full build and install steps. To build and install from a
-checkout, run:
+- **Do not use `uv tool install` for plugin setups**: `uv tool install` places `calpdf` in an isolated virtual environment that Calibre cannot see. Install `calpdf` into the Python environment Calibre runs under (for example, via `calpdf-git` on Arch Linux).
+- **Linux only**: Windows and macOS Calibre builds bundle an isolated Python runtime without a documented way to install third-party libraries into it.
 
-```bash
-git clone https://github.com/athaurian/calibre-calpdf.git
-cd calibre-calpdf
-make build
-calibre-customize -a dist/calpdf.zip
-```
-
-Restart Calibre, then add the **CalPDF** button from
-_Preferences → Interface → Toolbars & menus_.
-
-I use CalPDF on Linux. On Windows and macOS, Calibre bundles its own Python, and
-I haven't covered how to install calpdf into it yet.
+For build, installation, and development instructions, see the [`calibre-calpdf` repository](https://github.com/athaurian/calibre-calpdf).

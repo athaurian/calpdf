@@ -1,20 +1,14 @@
-# The `set-cover` command
+# `set-cover`
 
-The `set-cover` command downloads a cover and applies it to a PDF in one step,
-so you don't have to run [`dl-cover`](dl-cover.md) and then
-[`replace-cover`](replace-cover.md). The book identifier can be an ASIN, ISBN,
-or Open Library ID, as for [`dl-cover`](dl-cover.md). The downloaded image is
-temporary. The command deletes it after it applies the cover. Use
-[`dl-cover`](dl-cover.md) if you want to keep the image file.
+Downloads a cover by ASIN, ISBN, or Open Library ID and applies it to a PDF in one step. The downloaded image is stored in a temporary file and deleted as soon as the PDF is updated; use [`dl-cover`](dl-cover.md) first if you want to keep a copy of the image on disk.
 
 ```bash
-calpdf set-cover book.pdf B08X92NRKV
-calpdf set-cover book.pdf 9780387967875 --mode insert
+calpdf set-cover book.pdf 9780387967875
+calpdf set-cover book.pdf B08X92NRKV --mode insert --fit fill -o output.pdf
 ```
 
-The first example replaces the first page with the downloaded cover. The second
-inserts the cover as a new first page and keeps all the pages.
+## Options
 
-The command accepts the same options as the `replace-cover` command, except for
-the image argument. For more information about these options, see
-[The `replace-cover` command](replace-cover.md).
+`set-cover` uses the same lookup rules as [`dl-cover`](dl-cover.md) and accepts the same placement and sizing options as [`replace-cover`](replace-cover.md) (`-o` / `--output`, `--mode`, `--pages`, `--fit`, and `--dpi`).
+
+If `-o` / `--output` is omitted, `book.pdf` is modified in place (see [Backup behavior](../reference/backup-behavior.md)).

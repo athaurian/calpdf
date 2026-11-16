@@ -1,34 +1,33 @@
-# The `export-toc` command
+# `export-toc`
 
-The `export-toc` command reads a PDF's bookmarks and exports them as a _table of
-contents (ToC)_ in JSON or a tree view. Page numbers are 1-indexed physical page
-positions.
-
-By default, calpdf prints JSON to standard output so you can pipe it to another
-program. To write the JSON to a file, use `--output`. To print a human-readable
-tree instead, use `--format tree`:
+Exports a PDF's bookmark tree as JSON (for editing and re-applying with [`apply-toc`](apply-toc.md)) or as an indented terminal tree.
 
 ```bash
-calpdf export-toc book.pdf
+# Write editable ToC JSON to a file
 calpdf export-toc book.pdf -o toc.json
+
+# Inspect the bookmark hierarchy in the terminal
 calpdf export-toc book.pdf --format tree
 ```
 
-With `--format tree`, calpdf prints the tree to the terminal. `--output` has no
-effect, and calpdf prints a warning if you pass it.
+## Options
 
-The JSON output matches the format described in
-[The ToC JSON format](../reference/toc-json-format.md). A bookmark without a
-page target gets a `pageNumber` of `null`. The [`apply-toc`](apply-toc.md)
-command rejects `null`, so edit or remove those entries before you apply the
-file.
+| Option                  | Default | Description                                                                       |
+| :---------------------- | :------ | :-------------------------------------------------------------------------------- |
+| `-o`, `--output PATH`   | stdout  | Write JSON output to `PATH`. Ignored with a warning when `--format tree` is used. |
+| `--format [json\|tree]` | `json`  | Output format. Only `json` can be passed back to `apply-toc`.                     |
 
-## A book with no bookmarks
+## Page numbers and broken bookmarks
 
-A scanned book often has no bookmarks, so the export is an empty list. Add the
-entries in a text editor, then apply the file with [`apply-toc`](apply-toc.md):
+- **1-indexed physical pages**: `pageNumber` always refers to the physical page index starting at `1`, regardless of Roman numerals or custom reader page labels (`i`, `ii`, `A-1`). See [ToC JSON format](../reference/toc-json-format.md).
+- **Unlinked bookmarks (`pageNumber: null`)**: If the source PDF has a bookmark with no destination page, `export-toc` preserves it with `"pageNumber": null`. You must replace `null` with an integer page number before running `apply-toc`, which rejects unlinked entries.
+
+## Adding bookmarks to a PDF that has none
+
+Exporting from a PDF without bookmarks writes an empty JSON list (`[]`), which you can populate and apply:
 
 ```bash
 calpdf export-toc book.pdf -o toc.json
+# Edit toc.json to add {"title": "...", "pageNumber": 1, "children": []} entries
 calpdf apply-toc book.pdf toc.json
 ```

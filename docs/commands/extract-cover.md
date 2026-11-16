@@ -1,42 +1,31 @@
-# The `extract-cover` command
+# `extract-cover`
 
-The `extract-cover` command extracts the largest image from a PDF page and saves
-it as a separate file. Use it to save a cover image from a PDF so you can reuse
-the image in Calibre or another tool.
+Extracts the largest embedded raster image from a PDF page (page 1 by default).
 
 ```bash
-# Save the largest image from the first page
+# Saves to book_cover.jpg or book_cover.png
 calpdf extract-cover book.pdf
 
-# Save the image to a specific file and format
-calpdf extract-cover book.pdf -o cover.jpg
-
-# Write the original bytes from the second page with the default name
-calpdf extract-cover book.pdf --page 2 --raw
+# Extract from page 2 to a custom path
+calpdf extract-cover book.pdf --page 2 -o cover.png
 ```
 
-Without `--output`, calpdf saves the image in the current directory as
-`BOOK_STEM_cover.jpg` or `BOOK_STEM_cover.png`, depending on the embedded image.
-`BOOK_STEM` is the PDF file name without its extension. The command picks the
-largest image on the selected page, so it skips small icons and returns the
-image that most likely is the cover.
+## Limitations
 
-To write the original bytes without re-encoding, use `--raw`. With `--raw`,
-calpdf writes the embedded bytes unchanged and doesn't check the output
-extension. If the extension doesn't match the embedded format, the file holds
-bytes that don't match its name.
+`extract-cover` selects the embedded image with the largest pixel area on the target page. If a cover is drawn entirely with vector paths, text, or tiled image strips rather than a single raster image, `extract-cover` will either find no image or extract only the largest fragment.
 
-## Reusing the cover in Calibre
+## Options
 
-Extract the cover when you need the image on its own:
+| Option                | Default                 | Description                                                                                                                               |
+| :-------------------- | :---------------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| `-o`, `--output PATH` | `BOOK_STEM_cover.<ext>` | Output file path. Unless `--raw` is set, the image is converted to match the `.jpg`/`.jpeg` or `.png` extension of `PATH`.                |
+| `--page INTEGER`      | `1`                     | 1-indexed page number to inspect.                                                                                                         |
+| `--raw`               | Off                     | Write the embedded image stream bytes straight to disk without re-encoding or checking that the file extension matches the stream format. |
 
-```bash
-calpdf extract-cover book.pdf
-```
+## Using the extracted image in Calibre
 
-To set the extracted image as the book's cover in Calibre:
+If a PDF has a good cover on page 1 that is missing from Calibre's library metadata:
 
-1. Open the book.
-2. Choose **Edit metadata**.
-3. Drag the extracted file (for `book.pdf`, `book_cover.jpg` or
-   `book_cover.png`) onto the cover in the **Edit metadata** dialog.
+1. Run `calpdf extract-cover book.pdf`.
+2. Open **Edit metadata** for the book in Calibre.
+3. Drag `book_cover.jpg` (or `.png`) onto the cover preview pane.

@@ -1,23 +1,15 @@
-# The `info` command
+# `info`
 
-The `info` command shows the page count, PDF version, file size, bookmark
-counts, and page sizes of a PDF. The text output summarizes the page sizes, and
-the JSON output includes every page.
+Displays a PDF's page count, PDF specification version, file size, bookmark count (total and top-level), and page dimensions.
 
 ```bash
-# Show a human-readable summary
 calpdf info book.pdf
-
-# Write machine-readable JSON to standard output
-calpdf info book.pdf --format json
-
-# Write JSON to a file
 calpdf info book.pdf --format json -o info.json
 ```
 
-The `--format` option selects one of two output modes:
+## Options
 
-| `--format` value | Behavior                                                                                                                     |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `text` (default) | Prints a summary to the terminal. The `--output` option has no effect, and calpdf prints a warning if you pass it.           |
-| `json`           | Prints machine-readable JSON to standard output so you can pipe it to another program. Use `--output` to write it to a file. |
+| Option                  | Default | Description                                                                                                                                                       |
+| :---------------------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--format [text\|json]` | `text`  | `text` prints a human-readable summary that groups identical page sizes. `json` outputs machine-readable metadata including individual dimensions for every page. |
+| `-o`, `--output PATH`   | stdout  | Write JSON output to `PATH`. Has no effect (and prints a warning) when `--format text` is active.                                                                 |

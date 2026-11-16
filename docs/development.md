@@ -1,104 +1,30 @@
 # Development
 
-calpdf needs Python 3.11 or later, [Git](https://git-scm.com/downloads), and the
-`uv` package manager. The common checks also need `make` and Node.js, because
-the Makefile runs Prettier through `npx`.
+## Requirements and setup
 
-## Set up the checkout
+- Python `3.11+`, Git, `uv`, and `make`
+- Node.js with `npx` (used by `make format` and `make lint` to run Prettier on Markdown files)
+- `qpdf` on `PATH` (for `optimize` integration tests)
 
-Clone the repository and enter it:
-
-```bash
-git clone https://github.com/athaurian/calpdf.git
-cd calpdf
-```
-
-Install the project and its development tools:
+Install dependencies into the project virtual environment:
 
 ```bash
 uv sync --dev
 ```
 
-This installs calpdf and the development tools in `.venv`.
+## Common tasks
 
-## Run the checkout
+| Target            | Purpose                                                 |
+| :---------------- | :------------------------------------------------------ |
+| `make test`       | Run the `pytest` suite                                  |
+| `make lint`       | Run Ruff checks, mypy, and Prettier format verification |
+| `make format`     | Auto-format Python with Ruff and Markdown with Prettier |
+| `make docs`       | Build the Zensical documentation site in strict mode    |
+| `make docs-serve` | Serve the documentation locally with live reload        |
+| `make check`      | Run `lint`, `test`, and strict `docs` build together    |
 
-Use `uv run` to run calpdf from the checkout without a separate global install:
+## Updating dependencies and shared assets
 
-```bash
-uv run calpdf --version
-uv run calpdf info book.pdf
-```
-
-To try `optimize`, install `qpdf` first, as described in
-[External dependencies](installation.md#external-dependencies).
-
-## Project layout
-
-| Path          | Contents                                         |
-| ------------- | ------------------------------------------------ |
-| `src/calpdf/` | Package and command modules                      |
-| `tests/`      | Pytest suite and fixtures that build sample PDFs |
-| `docs/`       | Markdown source for this site                    |
-| `Makefile`    | Wraps the common checks                          |
-
-## Test and lint
-
-Run the narrowest check while you work, then run `make check` before you open a
-pull request. It runs the lint checks, builds the documentation, and runs the
-test suite.
-
-| Command       | Action                                                                          |
-| ------------- | ------------------------------------------------------------------------------- |
-| `make test`   | Runs the pytest suite                                                           |
-| `make lint`   | Runs Ruff, mypy, and Prettier without changing files                            |
-| `make format` | Rewrites Python and Markdown with Ruff and Prettier                             |
-| `make docs`   | Builds the site in strict mode, so warnings such as broken links fail the build |
-| `make check`  | Runs the lint checks, the docs build, and the tests                             |
-
-To run one test file, give it to pytest directly:
-
-```bash
-uv run pytest tests/test_toc.py
-```
-
-Add `::TestValidateToc` or a test name to run a smaller part of the file.
-
-## Documentation
-
-The site is built with [Zensical](https://zensical.org/). Preview it while you
-edit:
-
-```bash
-make docs-serve
-```
-
-Zensical prints the preview address when it starts, and the preview reloads when
-a file changes. To build it once instead, run `make docs`.
-
-The shared theme comes from the
-[docs-theme](https://github.com/athaurian/docs-theme) repository. The copies
-here are generated, so make theme changes there and run its `make sync`. Styles
-that belong only to this site go in `docs/stylesheets/calpdf.css`.
-
-The screenshots on the [Calibre plugin](calibre.md) page come from the plugin
-repository. Regenerate them with `make ui` in `calibre-calpdf`, and don't
-commit screenshot files to this repository.
-
-To publish a change, merge it to `main`. Only a push to `main` deploys the site.
-
-## Continuous integration
-
-The CI workflow in `.github/workflows/ci.yml` runs on pushes to `main` and on
-pull requests.
-
-| Job  | Runs                                            |
-| ---- | ----------------------------------------------- |
-| lint | `ruff check`, `ruff format --check`, and `mypy` |
-| test | pytest on Python 3.11, 3.12, and 3.13           |
-
-A separate `docs` workflow in `.github/workflows/docs.yml` builds the site in
-strict mode on the same triggers and deploys it on pushes to `main`.
-
-Dependencies are pinned in `uv.lock`. After you change `pyproject.toml`, run
-`uv lock` and commit the updated lockfile.
+- **Dependencies**: After editing `pyproject.toml`, run `uv lock` and commit the updated `uv.lock` so CI builds remain reproducible.
+- **Docs theme**: The Zensical theme assets in `docs/` are synced from [`docs-theme`](https://github.com/athaurian/docs-theme); do not hand-edit generated theme overrides in this repository.
+- **Calibre plugin screenshots**: Plugin UI screenshots are rendered in the [`calibre-calpdf`](https://github.com/athaurian/calibre-calpdf) repository via `make ui`.

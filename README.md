@@ -5,47 +5,54 @@
 
 </div>
 
-Hi. This is calpdf, a simple PDF toolkit that I use alongside Calibre. It
-handles common PDF tasks: replacing a cover, compressing a PDF when possible,
-and editing its table of contents. It works on PDFs in a Calibre library or
-anywhere else on disk.
+Hi. This is a command-line toolkit for sanitizing PDFs. It's also available as a [Calibre plugin](https://github.com/athaurian/calibre-calpdf) if you prefer to use a GUI.
 
-When calpdf changes a PDF in place, it keeps one `.bak` copy of the original
-before the first change, and `calpdf restore` puts it back.
+> [!NOTE]
+> The name "calpdf" was inspired by Calibre, but calpdf itself is a standalone tool you can use anywhere on disk.
 
-Inside Calibre, the [Calibre plugin](docs/calibre.md) does the same work with a
-graphical interface.
+## Commands
 
-A typical session on one book looks like this:
+| Command         | Purpose                                                                      |
+| :-------------- | :--------------------------------------------------------------------------- |
+| `info`          | Show page count, dimensions, PDF version, file size, and bookmark count      |
+| `dl-cover`      | Download a cover image by ASIN, ISBN, or Open Library ID                     |
+| `replace-cover` | Replace the first page(s) or prepend a cover from a local PNG/JPEG           |
+| `set-cover`     | Download a cover by ID and apply it to a PDF in one step                     |
+| `extract-cover` | Extract the largest image on a page (defaults to page 1)                     |
+| `export-toc`    | Export the bookmark tree as JSON or a readable terminal tree                 |
+| `apply-toc`     | Replace the PDF bookmark tree from a JSON file                               |
+| `optimize`      | Compress streams, linearize, and strip metadata or color profiles via `qpdf` |
+| `restore`       | Restore a PDF from its `.bak` backup and remove the backup                   |
+
+## Quick start
 
 ```bash
-# Inspect the PDF first
+# Inspect the PDF
 calpdf info book.pdf
 
-# Download a cover and apply it in one step
-calpdf set-cover book.pdf 9780387967875
+# Download and apply a cover by ISBN, writing to a new file or in place
+calpdf set-cover book.pdf 9780387967875 -o book-covered.pdf
 
-# Compress the PDF when possible
-calpdf optimize book.pdf
-
-# Export the bookmarks, edit the JSON, and apply it
+# Export bookmarks, edit toc.json, and apply them
 calpdf export-toc book.pdf -o toc.json
 calpdf apply-toc book.pdf toc.json
+
+# Compress with qpdf
+calpdf optimize book.pdf -o book-opt.pdf
 ```
 
-## Install
+### In-place backups
 
-For requirements and install steps, see
-[the installation page](docs/installation.md).
+When you run an in-place command (`replace-cover`, `set-cover`, `apply-toc`, or `optimize` without `-o`), `calpdf` saves the original file to `book.pdf.bak`.
+
+If `book.pdf.bak` already exists, in-place commands read from `book.pdf.bak` as their input so repeated runs (such as testing different cover fit modes) always start from the untouched original rather than stacking changes.
+
+To chain different edits in place, either write to `-o` or remove `book.pdf.bak` between steps when you are happy with the current state. Run `calpdf restore book.pdf` at any time to revert to `.bak`.
 
 ## Documentation
 
-For the full documentation, see the [calpdf documentation](docs/index.md). It
-covers [global options](docs/global-options.md), a page for each command, and
-[the ToC JSON format](docs/reference/toc-json-format.md).
-
-For development setup, see [`docs/development.md`](docs/development.md).
+For the full set of guides, see the [documentation index](https://athaurian.github.io/calpdf)
 
 ## License
 
-Released under the MIT license. See [LICENSE](LICENSE) for the full text.
+MIT
