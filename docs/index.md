@@ -4,12 +4,7 @@ template: home.html
 
 # calpdf
 
-This is the documentation index. If you want an overview instead, see [the project's README.md](https://github.com/athaurian/calpdf/blob/main/README.md).
-
----
-
-<div class="asciinema-demo" role="group" data-asciinema-cast="assets/casts/cover-and-restore.cast" data-asciinema-poster="npt:2" aria-label="Terminal recording of a cover replacement and restore session"></div>
-<p class="asciinema-caption">The sample book is small, so the sizes in the recording are small as well.</p>
+This is the documentation index. If you want an overview instead, see [the project's README.md](https://github.com/athaurian/calpdf/blob/main/README.md). For a terminal recording of the main workflow, see the [showcase](showcase.md).
 
 ---
 
