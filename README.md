@@ -51,7 +51,7 @@ To chain different edits in place, either write to `-o` or remove `book.pdf.bak`
 
 ## Documentation
 
-For the full set of guides, see the [documentation index](https://athaurian.github.io/calpdf)
+For the full set of guides, see the [documentation index](https://athaurian.github.io/calpdf).
 
 ## License
 
